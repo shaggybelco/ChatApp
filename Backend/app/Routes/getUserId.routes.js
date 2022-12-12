@@ -7,7 +7,7 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 const verifyUser = require("../middlewares/auth.middleware");
-const controller = require("../controllers/getUser.controller");
+const controller = require("../controllers/getUserId.controller");
 
 app.get("/getid", verifyUser, controller.getId);
 

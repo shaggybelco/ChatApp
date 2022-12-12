@@ -45,9 +45,11 @@ io.on("connection", (socket) => {
 //routes
 const reg = require('./app/Routes/register.routes');
 const log = require('./app/Routes/login.routes');
+const getid = require('./app/Routes/getUserId.routes');
 
 app.use('/api', reg);
 app.use('/api',log)
+app.use('/api', getid);
 
 server.listen(port, () => {
   console.log(`connect to http://localhost:${port}`);
