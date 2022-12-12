@@ -9,6 +9,8 @@ export class RegisterComponent implements OnInit {
 
   constructor() { }
 
+  cellphone: number = 0;
+
   ngOnInit(): void {
   }
 

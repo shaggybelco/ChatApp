@@ -10,6 +10,8 @@ import { LoginComponent } from './components/login/login.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { BtmnavComponent } from './components/btmnav/btmnav.component';
 import {ButtonModule} from 'primeng/button';
+import {InputMaskModule} from 'primeng/inputmask';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import {ButtonModule} from 'primeng/button';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ButtonModule
+    ButtonModule,
+    InputMaskModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
