@@ -8,6 +8,8 @@ import { ChatComponent } from './components/chat/chat.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { BtmnavComponent } from './components/btmnav/btmnav.component';
+import {ButtonModule} from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -16,11 +18,13 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     ChatComponent,
     RegisterComponent,
     LoginComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    BtmnavComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

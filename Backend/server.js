@@ -42,6 +42,10 @@ io.on("connection", (socket) => {
   socket.emit("hello", uuidv4());
 });
 
+//routes
+const reg = require('./app/Routes/register.routes')
+app.use('/api', reg);
+
 server.listen(port, () => {
   console.log(`connect to http://localhost:${port}`);
 });
