@@ -3,7 +3,19 @@ const Chat = db.chat;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
-  
+  const chat = new Chat(
+      {
+          sender: req.body.sender,
+          reciever: req.body.reciever,
+          message: req.body.message
+      }
+  )
+
+  chat.save(chat).then((sent)=>{
+      res.status(200).json({success: 'Message sent', data: sent});
+  }).catch((error)=>{
+      res.status(400).json({error: 'Message did not send', data: error})
+  })
 };
 
 // Retrieve all Tutorials from the database.
