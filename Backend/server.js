@@ -19,6 +19,9 @@ app.use(cors());
 
 const db = require("./app/models");
 
+// const db = require("./app/models/");
+const Chat = db.chat;
+
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -40,16 +43,22 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
   socket.emit("hello", uuidv4());
+
+  socket.on("send", (data) =>{
+    
+  });
 });
 
 //routes
 const reg = require('./app/Routes/register.routes');
 const log = require('./app/Routes/login.routes');
 const getid = require('./app/Routes/getUserId.routes');
+const chat = require('./app/Routes/chat.routes');
 
 app.use('/api', reg);
 app.use('/api',log)
 app.use('/api', getid);
+app.use('/api', chat)
 
 server.listen(port, () => {
   console.log(`connect to http://localhost:${port}`);
