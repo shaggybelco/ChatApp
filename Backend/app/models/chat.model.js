@@ -1,8 +1,8 @@
 module.exports = (mongoose) => {
   var schema = mongoose.Schema(
     {
-      sender: String,
-      reciever: String,
+      sender: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
+      reciever: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
       message: String,
     },
     { timestamps: true }

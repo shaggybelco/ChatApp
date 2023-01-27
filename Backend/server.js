@@ -40,25 +40,66 @@ app.get("/", (req, res) => {
   res.send("we are here");
 });
 
-io.on("connection", (socket) => {
-  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
-  socket.emit("hello", uuidv4());
+let ch = "";
 
-  socket.on("send", (data) =>{
-    
+io.on("connection", (socket) => {
+
+  console.log(socket.id);
+  socket.on("send-message", (data) => {
+    // mychat
+    const chat = new Chat({
+      sender: req.body.sender,
+      reciever: req.body.reciever,
+      message: req.body.message,
+    });
+
+    chat
+      .save(chat)
+      .then((sent) => {
+        res.status(200).json({ success: "Message sent", data: sent });
+      })
+      .catch((error) => {
+        res.status(400).json({ error: "Message did not send", data: error });
+      });
+
+    //   other chat
+    const otherChat = new Chat({
+      sender: req.body.reciever,
+      reciever: req.body.sender,
+      message: req.body.message,
+    });
+
+    otherChat
+      .save(otherChat)
+      .then((sent) => {
+        res.status(200).json({ success: "Message sent", data: sent });
+      })
+      .catch((error) => {
+        res.status(400).json({ error: "Message did not send", data: error });
+      });
   });
 });
 
-//routes
-const reg = require('./app/Routes/register.routes');
-const log = require('./app/Routes/login.routes');
-const getid = require('./app/Routes/getUserId.routes');
-const chat = require('./app/Routes/chat.routes');
+// io.of("/").adapter.on("create-room", (room) => {
+//   console.log(`room ${room} was created`);
+// });
 
-app.use('/api', reg);
-app.use('/api',log)
-app.use('/api', getid);
-app.use('/api', chat)
+// io.of("/").adapter.on("join-room", (room, id) => {
+//   console.log(`socket ${id} has joined room ${room}`);
+// });
+
+//routes
+const reg = require("./app/Routes/register.routes");
+const log = require("./app/Routes/login.routes");
+const getid = require("./app/Routes/getUserId.routes");
+const chat = require("./app/Routes/chat.routes");
+const user = require("./app/Routes/getAllUser.routes");
+
+app.use("/api", reg);
+app.use("/api", log);
+app.use("/api", getid);
+app.use("/api", chat);
+app.use("/api", user);
 
 server.listen(port, () => {
   console.log(`connect to http://localhost:${port}`);

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Route, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-signin',
@@ -17,7 +19,7 @@ export class SigninPage implements OnInit {
     }
   }
 
-  constructor(private user: AuthService){}
+  constructor(private user: AuthService, private router: Router, private token: TokenService){}
 
   userForm!: FormGroup;
 
@@ -40,6 +42,10 @@ export class SigninPage implements OnInit {
       {
         next: (res: any)=>{
           console.log(res)
+          localStorage.setItem('token', res.token);
+          this.token.token = res.token;
+          this.router.navigate(['/chat']);
+
         },error: (err: any)=>{
           console.log(err)
         }

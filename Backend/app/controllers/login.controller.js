@@ -11,7 +11,7 @@ exports.login = async (req, res) => {
     
     try{
         const user = await User.find({cellphone: cellphone});
-        console.log(user);
+    
 
         if(user.length == 0){
             return res.status(400).json({ error: "user does not exists" });
@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
               const token = jwt.sign(
                 {
                   id: user[0].id,
-                  email: user[0].email,
+                  cellphone: user[0].cellphone,
                   name: user[0].name,
                 },
                 SECRET_KEY,

@@ -31,6 +31,7 @@ exports.register = async (req, res) => {
 
         user.save(user).then((data)=>{
           const token = jwt.sign({
+            id: user._id,
             cellphone: user.cellphone,
             name: user.name
           },

@@ -18,7 +18,16 @@ const routes: Routes = [
   {
     path: 'signup',
     loadChildren: () => import('./auth/signup/signup.module').then( m => m.SignupPageModule)
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+  },
+  {
+    path: 'chats/:id/:name',
+    loadChildren: () => import('./message/message.module').then( m => m.MessagePageModule)
   }
+
 ];
 
 @NgModule({

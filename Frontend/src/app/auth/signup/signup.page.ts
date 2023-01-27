@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-signup',
@@ -10,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SignupPage implements OnInit {
 
-  constructor(private fb: FormBuilder, private user: AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder, private user: AuthService, private router: Router, private token: TokenService) { }
 
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
@@ -38,8 +39,10 @@ export class SignupPage implements OnInit {
     this.user.signup(this.userForm.value).subscribe(
       {
         next: (res: any) => {
-          console.log(res)
-          
+          console.log(res);
+          localStorage.setItem('token', res.token);
+          this.token.token = res.token;
+          this.router.navigate(['/chat'])
         },error: (err: any)=>{
           console.log(err)
         }

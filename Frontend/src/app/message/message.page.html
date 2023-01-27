@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/chat"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{name | titlecase}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <!-- <div></div> -->
+    <ion-item *ngFor="let item of msg">
+      <ion-label>
+        <h3>{{item.message}}</h3>
+        <p *ngIf="item.sender === hold.id">sender: {{hold.name | titlecase}}</p>
+        <p *ngIf="item.reciever ===id">reciever: {{name | titlecase}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-tabs>
+    <ion-tab-bar>
+      <ion-item shape="round" fill="outline" lines="full">
+        <ion-input placeholder="type your message" [(ngModel)]="message"></ion-input>
+        <ion-button (click)="send()"> 
+          <ion-icon name="send"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

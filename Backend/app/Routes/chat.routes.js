@@ -9,5 +9,6 @@ app.use(bodyparser.json());
 const controller = require("../controllers/chat.controller");
 
 app.post("/chat", controller.create);
+app.get('/chat/:reciever',controller.findOne)
 
 module.exports = app;
