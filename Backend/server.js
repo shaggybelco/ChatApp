@@ -19,9 +19,6 @@ app.use(cors());
 
 const db = require("./app/models");
 
-// const db = require("./app/models/");
-const Chat = db.chat;
-
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -40,53 +37,45 @@ app.get("/", (req, res) => {
   res.send("we are here");
 });
 
-let ch = "";
+const Chat = db.chat;
+const User = db.user;
+var users = [];
 
-io.on("connection", (socket) => {
-
-  console.log(socket.id);
-  socket.on("send-message", (data) => {
-    // mychat
-    const chat = new Chat({
-      sender: req.body.sender,
-      reciever: req.body.reciever,
-      message: req.body.message,
-    });
-
-    chat
-      .save(chat)
-      .then((sent) => {
-        res.status(200).json({ success: "Message sent", data: sent });
-      })
-      .catch((error) => {
-        res.status(400).json({ error: "Message did not send", data: error });
-      });
-
-    //   other chat
-    const otherChat = new Chat({
-      sender: req.body.reciever,
-      reciever: req.body.sender,
-      message: req.body.message,
-    });
-
-    otherChat
-      .save(otherChat)
-      .then((sent) => {
-        res.status(200).json({ success: "Message sent", data: sent });
-      })
-      .catch((error) => {
-        res.status(400).json({ error: "Message did not send", data: error });
-      });
+io.on('connection', (sockect)=>{
+  sockect.on('connected', (userID)=>{
+    users[userID] = sockect.id;
   });
-});
 
-// io.of("/").adapter.on("create-room", (room) => {
-//   console.log(`room ${room} was created`);
-// });
+  sockect.on('send', async(data)=>{
+    
+    const otherUser = await User.find({cellphone: data.userID});
 
-// io.of("/").adapter.on("join-room", (room, id) => {
-//   console.log(`socket ${id} has joined room ${room}`);
-// });
+    if(otherUser.length > 0){
+      const me = await User.find({cellphone: data.userID});
+
+      if(me.length > 0){
+        var message = 'Message from ' + me[0].name + ' message: ' + data.message;
+
+        io.to(users[otherUser[0].cellphone]).emit('mesRec', message);
+
+        const chat = new Chat({
+          sender: req.body.sender,
+          reciever: req.body.reciever,
+          message: req.body.message,
+        });
+      
+        chat
+          .save(chat)
+          .then((sent) => {
+            res.status(200).json({ success: "Message sent", data: sent });
+          })
+          .catch((error) => {
+            res.status(400).json({ error: "Message did not send", data: error });
+          });
+      }
+    }
+  })
+})
 
 //routes
 const reg = require("./app/Routes/register.routes");

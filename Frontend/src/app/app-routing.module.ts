@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ContactsComponent } from './contacts/contacts.component';
 
 const routes: Routes = [
   {
@@ -8,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'contacts',
     pathMatch: 'full'
   },
   {
@@ -26,6 +27,9 @@ const routes: Routes = [
   {
     path: 'chats/:id/:name',
     loadChildren: () => import('./message/message.module').then( m => m.MessagePageModule)
+  },{
+    path: 'contacts',
+    component: ContactsComponent
   }
 
 ];

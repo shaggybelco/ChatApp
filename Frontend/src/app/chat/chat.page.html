@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/signin"></ion-back-button>
     </ion-buttons>
-    <ion-title>chat</ion-title>
+    <ion-title>Chats</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -20,4 +20,9 @@
       </ion-label>
     </ion-item>
   </ion-list>
+  <ion-fab slot="fixed" [edge]="false" vertical="bottom" horizontal="end">
+    <ion-fab-button routerLink="/contacts">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

@@ -3,10 +3,9 @@ module.exports = (mongoose) => {
     "users",
     mongoose.Schema(
       {
-        name: {type: String, unique: true},
-        cellphone: Number,
+        name: String,
+        cellphone: {type: String, unique: true},
         password: String,
-        chatId: {type: mongoose.Schema.Types.ObjectId, ref: 'chat'}
       },
       { timestamps: true }
     )

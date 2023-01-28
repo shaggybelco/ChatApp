@@ -18,22 +18,6 @@ exports.create = (req, res) => {
     .catch((error) => {
       res.status(400).json({ error: "Message did not send", data: error });
     });
-
-  //   other chat
-  const otherChat = new Chat({
-    sender: req.body.reciever,
-    reciever: req.body.sender,
-    message: req.body.message,
-  });
-
-  otherChat
-    .save(otherChat)
-    .then((sent) => {
-      res.status(200).json({ success: "Message sent", data: sent });
-    })
-    .catch((error) => {
-      res.status(400).json({ error: "Message did not send", data: error });
-    });
 };
 
 // Retrieve all Tutorials from the database.

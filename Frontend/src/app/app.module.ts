@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { JwtTokenService } from './interceptors/jwt-token.service';
+import { ContactsComponent } from './contacts/contacts.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ContactsComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, {provide: HTTP_INTERCEPTORS, useClass: JwtTokenService, multi: true}],
   bootstrap: [AppComponent],
