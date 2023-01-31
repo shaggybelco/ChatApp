@@ -103,7 +103,7 @@ exports.findOne = async (req, res) => {
             {  sender: req.params.receiver, receiver: req.params.sender },
           ],
         },
-      })
+      }).sort({ timestamp: 1 })
       // .populate({ path: "receiver", model: "users" })
       .exec((error, chat) => {
         console.log(chat);
