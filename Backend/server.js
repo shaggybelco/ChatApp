@@ -67,10 +67,14 @@ io.on('connection', (sockect)=>{
         chat
           .save(chat)
           .then((sent) => {
-            User.updateOne({ _id: data.sender }, { $push: { chats: sent._id } }, (error) => {
+            User.findOneAndUpdate({ _id: data.sender }, { $push: { chats: sent._id } }, (error) => {
               if (error) return console.error(error);
-        
-              console.log('Chat inserted into user successfully.');
+          
+              User.findOneAndUpdate({ _id: data.receiver }, { $push: { chats: chat._id } }, (error) => {
+                if (error) return console.error(error);
+          
+                console.log('Users updated successfully');
+              });
             });
       
             console.log(sent);

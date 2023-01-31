@@ -7,26 +7,32 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <!-- <div></div> -->
-    <ion-item *ngFor="let item of msg">
-      <ion-label>
-        <h3>{{item.message}}</h3>
-        <p >sender: {{item.sender.name | titlecase}}</p>
-        <p >reciever: {{item.receiver.name | titlecase}}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-
-  <ion-tabs>
-    <ion-tab-bar>
-      <ion-item shape="round" fill="outline" lines="full">
-        <ion-input placeholder="type your message" [(ngModel)]="message"></ion-input>
-        <ion-button (click)="send()"> 
-          <ion-icon name="send"></ion-icon>
-        </ion-button>
-      </ion-item>
-    </ion-tab-bar>
-  </ion-tabs>
+<ion-content [scrollY]="true" [fullscreen]="true">
+  <div class="ion-content-scroll-host ion-padding">
+    <section>
+      <div class="hold" *ngFor="let item of msg">
+        <div [ngClass]="item.sender._id === hold.id ? 'from-me': 'from-them'">
+          <p>{{item.message}}</p>
+        </div>
+      </div>
+    </section>
+  </div>
 </ion-content>
+
+<ion-footer collapse="fade">
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-buttons>
+        <ion-button
+          ><ion-icon style="font-size: 2rem" name="image-outline"></ion-icon
+        ></ion-button>
+      </ion-buttons>
+      <textarea class="txt" [(ngModel)]="message" placeholder="Type something here"></textarea>
+      <ion-buttons>
+        <ion-button (click)="send()"
+          ><ion-icon style="font-size: 2rem" name="send-sharp"></ion-icon
+        ></ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>
