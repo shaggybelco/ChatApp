@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/signin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Chats</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="users$ | async as user">
+    <ion-item button *ngFor="let item of user.users" [routerLink]="['/chats', item._id, item.name]"
+    routerLinkActive="router-link-active">
+      <ion-avatar slot="start">
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+      <ion-label>
+        {{item.name}}
+        <p>last seen</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-fab slot="fixed" [edge]="false" vertical="bottom" horizontal="end">
+    <ion-fab-button routerLink="/contacts">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

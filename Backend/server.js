@@ -37,10 +37,58 @@ app.get("/", (req, res) => {
   res.send("we are here");
 });
 
-io.on("connection", (socket) => {
-  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
-  socket.emit("hello", uuidv4());
-});
+const Chat = db.chat;
+const User = db.user;
+var users = [];
+
+io.on('connection', (sockect)=>{
+  sockect.on('connected', (userID)=>{
+    users[userID] = sockect.id;
+  });
+
+  sockect.on('send', async(data)=>{
+    
+    const otherUser = await User.find({cellphone: data.userID});
+
+    if(otherUser.length > 0){
+      const me = await User.find({cellphone: data.userID});
+
+      if(me.length > 0){
+        var message = 'Message from ' + me[0].name + ' message: ' + data.message;
+
+        io.to(users[otherUser[0].cellphone]).emit('mesRec', message);
+
+        const chat = new Chat({
+          sender: req.body.sender,
+          reciever: req.body.reciever,
+          message: req.body.message,
+        });
+      
+        chat
+          .save(chat)
+          .then((sent) => {
+            res.status(200).json({ success: "Message sent", data: sent });
+          })
+          .catch((error) => {
+            res.status(400).json({ error: "Message did not send", data: error });
+          });
+      }
+    }
+  })
+})
+
+//routes
+const reg = require("./app/Routes/register.routes");
+const log = require("./app/Routes/login.routes");
+const getid = require("./app/Routes/getUserId.routes");
+const chat = require("./app/Routes/chat.routes");
+const user = require("./app/Routes/getAllUser.routes");
+
+app.use("/api", reg);
+app.use("/api", log);
+app.use("/api", getid);
+app.use("/api", chat);
+app.use("/api", user);
 
 server.listen(port, () => {
   console.log(`connect to http://localhost:${port}`);
