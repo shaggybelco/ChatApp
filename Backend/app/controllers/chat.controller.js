@@ -99,8 +99,8 @@ exports.findOne = async (req, res) => {
         model: "chats",
         match: {
           $or: [
-            { sender: req.params.sender },
-            { receiver: req.params.receiver },
+            { sender: req.params.sender, receiver: req.params.receiver },
+            {  sender: req.params.receiver, receiver: req.params.sender },
           ],
         },
       })
