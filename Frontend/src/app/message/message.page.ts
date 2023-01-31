@@ -34,13 +34,14 @@ export class MessagePage implements OnInit {
     // })
 
     const data = {
-      reciever: this.hold.id
+      sender: this.hold.id,
+      receiver: this.id
     }
 
     this.chat.getMessages(data).subscribe(
       {
         next: (res: any)=>{
-          this.msg = res
+          this.msg = res[0].chats
           console.log(res)
         }
       }
@@ -50,7 +51,7 @@ export class MessagePage implements OnInit {
   send(){
     const messageData = {
       sender: this.hold.id,
-      reciever: this.id,
+      receiver: this.id,
       message: this.message
     }
 

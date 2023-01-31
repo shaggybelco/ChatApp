@@ -39,6 +39,6 @@ public message$: BehaviorSubject<any> = new BehaviorSubject({});
   // };
 
   getMessages(data: any): Observable<any>{
-    return this.http.get(`${environment.baseUrl}/chat/${data.sender}`)
+    return this.http.get(`${environment.baseUrl}/chat/${data.sender}/${data.receiver}`)
   }
 }

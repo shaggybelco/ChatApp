@@ -59,14 +59,22 @@ io.on('connection', (sockect)=>{
         io.to(users[otherUser[0].cellphone]).emit('mesRec', message);
 
         const chat = new Chat({
-          sender: req.body.sender,
-          reciever: req.body.reciever,
-          message: req.body.message,
+          sender: data.sender,
+          reciever: data.reciever,
+          message: data.message,
         });
       
         chat
           .save(chat)
           .then((sent) => {
+            User.updateOne({ _id: data.sender }, { $push: { chats: sent._id } }, (error) => {
+              if (error) return console.error(error);
+        
+              console.log('Chat inserted into user successfully.');
+            });
+      
+            console.log(sent);
+            
             res.status(200).json({ success: "Message sent", data: sent });
           })
           .catch((error) => {

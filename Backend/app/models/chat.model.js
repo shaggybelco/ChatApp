@@ -1,8 +1,14 @@
 module.exports = (mongoose) => {
   var schema = mongoose.Schema(
     {
-      sender: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
-      reciever: {type: mongoose.Schema.Types.ObjectId, ref: "user"},
+      sender: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+      },
+      receiver: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+      },
       message: String,
     },
     { timestamps: true }
@@ -14,6 +20,6 @@ module.exports = (mongoose) => {
     return object;
   });
 
-  const Chat = mongoose.model("chat", schema);
+  const Chat = mongoose.model("chats", schema);
   return Chat;
 };

@@ -4,8 +4,12 @@ module.exports = (mongoose) => {
     mongoose.Schema(
       {
         name: String,
-        cellphone: {type: String, unique: true},
+        cellphone: {type: Number, unique: true},
         password: String,
+        chats: [{
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'chats'
+        }]
       },
       { timestamps: true }
     )
