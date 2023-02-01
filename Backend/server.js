@@ -41,53 +41,93 @@ const Chat = db.chat;
 const User = db.user;
 var users = [];
 
-io.on('connection', (sockect)=>{
-  sockect.on('connected', (userID)=>{
+io.on("connection", (sockect) => {
+  sockect.on("connected", (userID) => {
     users[userID] = sockect.id;
   });
 
-  sockect.on('send', async(data)=>{
-    
-    const otherUser = await User.find({cellphone: data.userID});
+  sockect.on("send", async (data) => {
+    const otherUser = await User.find({ _id: data.receiver });
 
-    if(otherUser.length > 0){
-      const me = await User.find({cellphone: data.userID});
+    if (otherUser.length > 0) {
+      const me = await User.find({ _id: data.sender });
 
-      if(me.length > 0){
-        var message = 'Message from ' + me[0].name + ' message: ' + data.message;
-
-        io.to(users[otherUser[0].cellphone]).emit('mesRec', message);
+      if (me.length > 0) {
+        var message =
+          "Message from " + me[0].name + " message: " + data.message;
 
         const chat = new Chat({
           sender: data.sender,
-          reciever: data.reciever,
+          receiver: data.receiver,
           message: data.message,
         });
-      
+
         chat
           .save(chat)
-          .then((sent) => {
-            User.findOneAndUpdate({ _id: data.sender }, { $push: { chats: sent._id } }, (error) => {
-              if (error) return console.error(error);
-          
-              User.findOneAndUpdate({ _id: data.receiver }, { $push: { chats: chat._id } }, (error) => {
+          .then(async(sent) => {
+            User.findOneAndUpdate(
+              { _id: me[0]._id },
+              { $push: { chats: sent._id } },
+              (error) => {
                 if (error) return console.error(error);
-          
-                console.log('Users updated successfully');
+
+                User.findOneAndUpdate(
+                  { _id: otherUser[0]._id },
+                  { $push: { chats: sent._id } },
+                  (error) => {
+                    if (error) return console.error(error);
+
+                    console.log("Users updated successfully");
+                  }
+                );
+              }
+            );
+
+            User.find({ _id: me[0]._id })
+              .populate({
+                path: "chats",
+                populate: [
+                  {
+                    path: "sender",
+                    model: "users",
+                  },
+                  {
+                    path: "receiver",
+                    model: "users",
+                  },
+                ],
+                model: "chats",
+                match: {
+                  $or: [
+                    { sender: me[0]._id, receiver: otherUser[0]._id },
+                    { sender: otherUser[0]._id, receiver: me[0]._id },
+                  ],
+                },
+              })
+              // .populate({ path: "receiver", model: "users" })
+              .exec((error, chat) => {
+                console.log(chat[0].chats);
+                if (error) {
+                  console.log(error);
+                }
+
+                io.to(users[otherUser[0]._id]).emit("mesRec", chat);
+                io.to(users[me[0]._id]).emit("mesRec", chat);
               });
-            });
-      
-            console.log(sent);
-            
-            res.status(200).json({ success: "Message sent", data: sent });
+
+            // io.to(users[otherUser[0]._id]).emit('mesRec', sent);
+            // console.log(sent);
+
+            // res.status(200).json({ success: "Message sent", data: sent });
           })
           .catch((error) => {
-            res.status(400).json({ error: "Message did not send", data: error });
+            console.log(error);
+            // res.status(400).json({ error: "Message did not send", data: error });
           });
       }
     }
-  })
-})
+  });
+});
 
 //routes
 const reg = require("./app/Routes/register.routes");

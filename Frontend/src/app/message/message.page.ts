@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
+import { io } from "socket.io-client";
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-message',
@@ -15,6 +17,8 @@ export class MessagePage implements OnInit {
     private chat: ChatService
   ) {}
 
+  public message$: BehaviorSubject<any> = new BehaviorSubject([]);
+
   name = this.route.snapshot.paramMap.get('name');
   id = this.route.snapshot.params['id'];
 
@@ -27,6 +31,23 @@ export class MessagePage implements OnInit {
     this.chat.connect(this.hold.id);
 
     this.getMessages();
+
+    const socket = io(`http://localhost:3333`);
+
+    socket.on('mesRec', (mess:any)=>{
+      console.log(mess);
+    })
+
+    this.chat.getNewMessage().subscribe({
+      next: (val: any)=>{
+        this.message$.next(val[0].chats);
+        this.message$.subscribe({
+          next:(res: any)=>{
+            // console.log(res);
+          }
+        })
+      }
+    })
   }
 
   getMessages() {
@@ -38,7 +59,8 @@ export class MessagePage implements OnInit {
     this.chat.getMessages(data).subscribe({
       next: (res: any) => {
         this.msg = res[0].chats;
-        console.log(res[0].chats);
+        // console.log(res[0].chats);
+        this.message$.next(this.msg)
       },
     });
   }
@@ -52,15 +74,22 @@ export class MessagePage implements OnInit {
 
     // console.log(messageData)
 
-    this.chat.sendMessage(messageData).subscribe({
-      next: (value) =>{
-        console.log(value);
-        this.getMessages();
-      },
-      error: (err) =>{
-        console.log(err);
-      },
-    });
+    this.chat.sendMessage(messageData);
+    // .subscribe({
+    //   next: (value: any) =>{
+    //     console.log(value);
+    
+    //   },
+    //   error: (err: any) =>{
+    //     console.log(err);
+    //   },
+    // });
+
+    // this.chat.getNewMessage().subscribe({
+    //   next: (val: any)=>{
+    //     console.log(val)
+    //   }
+    // })
 
     this.message = '';
   }
