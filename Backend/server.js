@@ -64,7 +64,7 @@ io.on("connection", (sockect) => {
 
         chat
           .save(chat)
-          .then(async(sent) => {
+          .then(async (sent) => {
             User.findOneAndUpdate(
               { _id: me[0]._id },
               { $push: { chats: sent._id } },
@@ -78,47 +78,43 @@ io.on("connection", (sockect) => {
                     if (error) return console.error(error);
 
                     console.log("Users updated successfully");
+
+                    User.find({ _id: me[0]._id })
+                      .populate({
+                        path: "chats",
+                        populate: [
+                          {
+                            path: "sender",
+                            model: "users",
+                          },
+                          {
+                            path: "receiver",
+                            model: "users",
+                          },
+                        ],
+                        model: "chats",
+                        match: {
+                          $or: [
+                            { sender: me[0]._id, receiver: otherUser[0]._id },
+                            { sender: otherUser[0]._id, receiver: me[0]._id },
+                          ],
+                        },
+                      })
+                      .exec((error, chat) => {
+                        console.log(chat[0].chats);
+                        if (error) {
+                          console.log(error);
+                        }
+
+                        console.log('emited')
+
+                        io.to(users[otherUser[0]._id]).emit("mesRec", chat);
+                        io.to(users[me[0]._id]).emit("mesRec", chat);
+                      });
                   }
                 );
               }
             );
-
-            User.find({ _id: me[0]._id })
-              .populate({
-                path: "chats",
-                populate: [
-                  {
-                    path: "sender",
-                    model: "users",
-                  },
-                  {
-                    path: "receiver",
-                    model: "users",
-                  },
-                ],
-                model: "chats",
-                match: {
-                  $or: [
-                    { sender: me[0]._id, receiver: otherUser[0]._id },
-                    { sender: otherUser[0]._id, receiver: me[0]._id },
-                  ],
-                },
-              })
-              // .populate({ path: "receiver", model: "users" })
-              .exec((error, chat) => {
-                console.log(chat[0].chats);
-                if (error) {
-                  console.log(error);
-                }
-
-                io.to(users[otherUser[0]._id]).emit("mesRec", chat);
-                io.to(users[me[0]._id]).emit("mesRec", chat);
-              });
-
-            // io.to(users[otherUser[0]._id]).emit('mesRec', sent);
-            // console.log(sent);
-
-            // res.status(200).json({ success: "Message sent", data: sent });
           })
           .catch((error) => {
             console.log(error);
