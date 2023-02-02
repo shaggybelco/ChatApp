@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { io } from "socket.io-client";
 import { BehaviorSubject } from 'rxjs';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-message',
@@ -17,10 +18,25 @@ export class MessagePage implements OnInit {
     private chat: ChatService,
   ) {}
 
-  ngAfterViewChecked() {
+  @ViewChild(IonContent) content!: IonContent;
+
+  scrollToBottom() {
+    // Passing a duration to the method makes it so the scroll slowly
+    // goes to the bottom instead of instantly
+    this.content.scrollToBottom(500);
+  }
+
+  scrollToTop() {
+    // Passing a duration to the method makes it so the scroll slowly
+    // goes to the top instead of instantly
+    this.content.scrollToTop(500);
+  }
+
+  ngAfterViewChecked(){
+    this.scrollToBottom();
     console.log('viewed')
   }
-  
+
   public message$: BehaviorSubject<any> = new BehaviorSubject([]);
 
   name = this.route.snapshot.paramMap.get('name');
