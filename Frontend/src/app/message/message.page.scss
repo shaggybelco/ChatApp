@@ -50,3 +50,23 @@ ion-item {
     margin-bottom: 0px;
     background-color: transparent;
 }
+
+.chat-input {
+  margin: 10px;
+  height: 50px;
+  max-height: 80px;
+  width: 100%;
+  background-color: transparent;
+  border-radius: 20px;
+  padding: 13px;
+  overflow-y: scroll;
+
+}
+
+.fm{
+  display: flex;
+}
+
+.message-container{
+  height: 100vh;
+}

@@ -9,7 +9,11 @@ module.exports = (mongoose) => {
         chats: [{
           type: mongoose.Schema.Types.ObjectId,
           ref: 'chats'
-        }]
+        }],
+        lastMessage: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'chats'
+        }
       },
       { timestamps: true }
     )

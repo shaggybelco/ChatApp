@@ -1,3 +1,5 @@
+import { UserService } from './user.service';
+import { User } from './../model/user';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -11,10 +13,10 @@ const socket = io(`http://localhost:3333`);
 })
 export class ChatService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private user: UserService) { }
 
 public message$: BehaviorSubject<any> = new BehaviorSubject({});
-
+public lastMessage$: BehaviorSubject<any> = new BehaviorSubject({});
   connect(id: any){
     socket.on("connect", () => {
       socket.emit('connected', id);
@@ -37,6 +39,14 @@ public message$: BehaviorSubject<any> = new BehaviorSubject({});
 
     return this.message$.asObservable();
   };
+
+  public getLastMessage = (id: any) =>{
+    socket.on('mesRec', (message) =>{
+      this.user.getAllUser(id);
+      this.lastMessage$.next('new message');
+    });
+    return this.lastMessage$.asObservable();
+  }
 
   getMessages(data: any): Observable<any>{
     return this.http.get(`${environment.baseUrl}/chat/${data.sender}/${data.receiver}`)

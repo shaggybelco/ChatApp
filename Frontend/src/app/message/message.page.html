@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollY]="true"  [fullscreen]="true">
+<ion-content [scrollY]="true" [fullscreen]="true">
   <div class="ion-content-scroll-host ion-padding">
     <section id="message-container" style="overflow-y: scroll;">
       <div class="hold" *ngFor="let item of message$ | async">
@@ -23,15 +23,16 @@
   <ion-toolbar>
     <ion-item lines="none">
       <ion-buttons>
-        <ion-button
-          ><ion-icon style="font-size: 2rem" name="image-outline"></ion-icon
-        ></ion-button>
+        <ion-button>
+          <ion-icon style="font-size: 2rem" name="image-outline"></ion-icon>
+        </ion-button>
       </ion-buttons>
-      <textarea class="txt" [(ngModel)]="message" placeholder="Type something here"></textarea>
+
+      <textarea class="chat-input" placeholder="Type message" (keyup.enter)="send()" [(ngModel)]="message"></textarea>
       <ion-buttons>
-        <ion-button (click)="send()"
-          ><ion-icon style="font-size: 2rem" name="send-sharp"></ion-icon
-        ></ion-button>
+        <ion-button type="submit" (keyup.enter)="send()" (click)="send()">
+          <ion-icon style="font-size: 2rem" name="send-sharp"></ion-icon>
+        </ion-button>
       </ion-buttons>
     </ion-item>
   </ion-toolbar>

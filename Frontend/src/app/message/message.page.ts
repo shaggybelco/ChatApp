@@ -1,8 +1,8 @@
-import { Component, OnInit ,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 import { BehaviorSubject } from 'rxjs';
 import { IonContent } from '@ionic/angular';
 
@@ -15,7 +15,7 @@ export class MessagePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private token: TokenService,
-    private chat: ChatService,
+    private chat: ChatService
   ) {}
 
   @ViewChild(IonContent) content!: IonContent;
@@ -32,9 +32,9 @@ export class MessagePage implements OnInit {
     this.content.scrollToTop(500);
   }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
     this.scrollToBottom();
-    console.log('viewed')
+    // console.log('viewed')
   }
 
   public message$: BehaviorSubject<any> = new BehaviorSubject([]);
@@ -54,20 +54,21 @@ export class MessagePage implements OnInit {
 
     const socket = io(`http://localhost:3333`);
 
-    socket.on('mesRec', (mess:any)=>{
+    socket.on('mesRec', (mess: any) => {
       console.log(mess);
-    })
+    });
 
     this.chat.getNewMessage().subscribe({
-      next: (val: any)=>{
+      next: (val: any) => {
+        console.log(val);
         this.message$.next(val[0].chats);
         this.message$.subscribe({
-          next:(res: any)=>{
+          next: (res: any) => {
             // console.log(res);
-          }
-        })
-      }
-    })
+          },
+        });
+      },
+    });
   }
 
   getMessages() {
@@ -78,39 +79,27 @@ export class MessagePage implements OnInit {
 
     this.chat.getMessages(data).subscribe({
       next: (res: any) => {
+        // console.log(res)
         this.msg = res[0].chats;
-        // console.log(res[0].chats);
-        this.message$.next(this.msg)
+        console.log(res[0]);
+        this.message$.next(this.msg);
       },
     });
   }
 
   send() {
-    const messageData = {
-      sender: this.hold.id,
-      receiver: this.id,
-      message: this.message,
-    };
+    if (this.message === '') {
+      return;
+    } else {
+      const messageData = {
+        sender: this.hold.id,
+        receiver: this.id,
+        message: this.message,
+      };
 
-    // console.log(messageData)
+      this.message = '';
 
-    this.chat.sendMessage(messageData);
-    // .subscribe({
-    //   next: (value: any) =>{
-    //     console.log(value);
-    
-    //   },
-    //   error: (err: any) =>{
-    //     console.log(err);
-    //   },
-    // });
-
-    // this.chat.getNewMessage().subscribe({
-    //   next: (val: any)=>{
-    //     console.log(val)
-    //   }
-    // })
-
-    this.message = '';
+      this.chat.sendMessage(messageData);
+    }
   }
 }

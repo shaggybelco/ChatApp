@@ -9,27 +9,36 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
+  constructor(
+    private token: TokenService,
+    private user: UserService,
+    private chat: ChatService
+  ) {}
 
-  constructor(private token: TokenService, private user: UserService, private chat: ChatService) { }
-
-  public users$ = this.user.getAllUser();
+  public users$: any;
 
   users: any;
   hold: any;
 
   ngOnInit() {
-
     this.hold = this.token.decode();
 
-    console.log(this.hold.id + ' hold')
+    console.log(this.hold.id + ' hold');
 
-    this.user.getAllUser().subscribe(
-      {
-        next: (res: any)=>{
-          this.users = res
-        }
-      }
-    );
+    this.getAllUser(this.hold.id);
+
+    this.chat.getLastMessage(this.hold.id).subscribe((res) => {
+      console.log(res);
+      this.getAllUser(this.hold.id);
+    });
   }
 
+  getAllUser(id: any) {
+    this.user.getAllUser(id).subscribe({
+      next: (res: any) => {
+        this.users = res.users;
+        console.log(res.users);
+      },
+    });
+  }
 }
