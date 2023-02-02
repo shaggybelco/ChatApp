@@ -43,7 +43,7 @@ public lastMessage$: BehaviorSubject<any> = new BehaviorSubject({});
   public getLastMessage = (id: any) =>{
     socket.on('mesRec', (message) =>{
       this.user.getAllUser(id);
-      this.lastMessage$.next('new message');
+      this.lastMessage$.next('1');
     });
     return this.lastMessage$.asObservable();
   }

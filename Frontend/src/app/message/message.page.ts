@@ -88,7 +88,7 @@ export class MessagePage implements OnInit {
   }
 
   send() {
-    if (this.message === '') {
+    if (this.message.length < 1) {
       return;
     } else {
       const messageData = {
