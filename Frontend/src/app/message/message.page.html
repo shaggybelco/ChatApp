@@ -7,10 +7,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollY]="true" [fullscreen]="true">
+<ion-content [scrollY]="true"  [fullscreen]="true">
   <div class="ion-content-scroll-host ion-padding">
-    <section>
-      <div class="hold" *ngFor="let item of msg">
+    <section id="message-container" style="overflow-y: scroll;">
+      <div class="hold" *ngFor="let item of message$ | async">
         <div [ngClass]="item.sender._id === hold.id ? 'from-me': 'from-them'">
           <p>{{item.message}}</p>
         </div>

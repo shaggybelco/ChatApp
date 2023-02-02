@@ -66,7 +66,7 @@ exports.findChat = async (req, res) => {
         }
       ])
       .exec((error, chat) => {
-        console.log(chat);
+        // console.log(chat);
         if (error) {
           res.status(400).json(error);
         }
@@ -80,9 +80,6 @@ exports.findChat = async (req, res) => {
 // Find a single Tutorial with an id
 exports.findOne = async (req, res) => {
   try {
-    const user = User.find({_id: req.params.sender});
-
-    console.log(user.paths)
     await User.find({ _id: req.params.sender })
       .populate({
         path: "chats",

@@ -15,28 +15,28 @@ export class ChatService {
 
 public message$: BehaviorSubject<any> = new BehaviorSubject({});
 
-  connect(uuid: any){
+  connect(id: any){
     socket.on("connect", () => {
-      socket.emit('storeClientInfo', { customId: uuid });
+      socket.emit('connected', id);
       console.log(socket.id)
     });
   }
 
   sendMessage(data: any){
-    socket.emit('send-message', data);
+    socket.emit('send', data);
 
-    return this.http.post(`${environment.baseUrl}/chat`, data)
+    // return this.http.post(`${environment.baseUrl}/chat`, data)
 
   }
 
-  // public getNewMessage = () => {
-  //   socket.on('message', (message) =>{
-  //     // console.log(message)
-  //     this.message$.next(message);
-  //   });
+  public getNewMessage = () => {
+    socket.on('mesRec', (message) =>{
+      // console.log(message)
+      this.message$.next(message);
+    });
 
-  //   return this.message$.asObservable();
-  // };
+    return this.message$.asObservable();
+  };
 
   getMessages(data: any): Observable<any>{
     return this.http.get(`${environment.baseUrl}/chat/${data.sender}/${data.receiver}`)
