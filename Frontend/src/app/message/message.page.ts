@@ -14,9 +14,13 @@ export class MessagePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private token: TokenService,
-    private chat: ChatService
+    private chat: ChatService,
   ) {}
 
+  ngAfterViewChecked() {
+    console.log('viewed')
+  }
+  
   public message$: BehaviorSubject<any> = new BehaviorSubject([]);
 
   name = this.route.snapshot.paramMap.get('name');
