@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
@@ -34,6 +34,7 @@ export class ChatPage implements OnInit {
     console.log(this.hold.id + ' hold');
 
     this.getAllUser(this.hold.id);
+    this.chat.connect(this.hold.id)
 
     this.chat.getLastMessage(this.hold.id).subscribe((res) => {
       this.chat.receiveMessage();
@@ -44,8 +45,6 @@ export class ChatPage implements OnInit {
         },
       });
     });
-
-
   }
 
 
@@ -56,6 +55,11 @@ export class ChatPage implements OnInit {
         console.log(res.users);
       },
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes[this.hold].isFirstChange());
+    
   }
 
   // receiveMessage() {

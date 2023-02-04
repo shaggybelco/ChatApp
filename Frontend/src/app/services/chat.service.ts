@@ -19,7 +19,8 @@ export class ChatService {
 public message$: BehaviorSubject<any> = new BehaviorSubject({});
 public lastMessage$: BehaviorSubject<any> = new BehaviorSubject({});
 
-messageCount: any = 0;
+messageCount: any = -1;
+msgReset: any = -1;
 
   connect(id: any){
     socket.on("connect", () => {
@@ -58,12 +59,12 @@ messageCount: any = 0;
 
   receiveMessage() {
     this.messageCount++;
-    console.log('in')
+    console.log(this.messageCount)
   }
 
   viewMessage() {
-    this.messageCount--;
-    console.log('out')
+    this.messageCount = this.msgReset;
+    console.log(this.messageCount)
   }
 
   getMessageCount() {
