@@ -10,5 +10,6 @@ const controller = require("../controllers//getAllUser.controller");
 
 app.get("/user", controller.getUser);
 app.get('/userl', controller.getUserWithMessage);
+app.get("/user/:userId", controller.getUser);
 
 module.exports = app;

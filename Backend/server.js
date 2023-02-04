@@ -67,13 +67,16 @@ io.on("connection", (sockect) => {
           .then(async (sent) => {
             User.findOneAndUpdate(
               { _id: me[0]._id },
-              { $push: { chats: sent._id } },
+              { $push: { chats: sent._id }, $set: { lastMessage: sent._id } },
               (error) => {
                 if (error) return console.error(error);
 
                 User.findOneAndUpdate(
                   { _id: otherUser[0]._id },
-                  { $push: { chats: sent._id } },
+                  {
+                    $push: { chats: sent._id },
+                    $set: { lastMessage: sent._id },
+                  },
                   (error) => {
                     if (error) return console.error(error);
 
@@ -100,13 +103,14 @@ io.on("connection", (sockect) => {
                           ],
                         },
                       })
+                    
                       .exec((error, chat) => {
-                        console.log(chat[0].chats);
+                        console.log(chat);
                         if (error) {
                           console.log(error);
                         }
 
-                        console.log('emited')
+                        console.log("emited");
 
                         io.to(users[otherUser[0]._id]).emit("mesRec", chat);
                         io.to(users[me[0]._id]).emit("mesRec", chat);

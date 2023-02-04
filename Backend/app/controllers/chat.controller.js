@@ -16,15 +16,23 @@ exports.create = (req, res) => {
     .then((sent) => {
       // for me
       console.log("1 " + req.body.sender);
-      User.findOneAndUpdate({ _id: req.body.sender }, { $push: { chats: chat._id } }, (error) => {
-        if (error) return console.error(error);
-    
-        User.findOneAndUpdate({ _id: req.body.receiver }, { $push: { chats: chat._id } }, (error) => {
+      User.findOneAndUpdate(
+        { _id: req.body.sender },
+        { $push: { chats: chat._id } },
+        (error) => {
           if (error) return console.error(error);
-    
-          console.log('Users updated successfully');
-        });
-      });
+
+          User.findOneAndUpdate(
+            { _id: req.body.receiver },
+            { $push: { chats: chat._id } },
+            (error) => {
+              if (error) return console.error(error);
+
+              console.log("Users updated successfully");
+            }
+          );
+        }
+      );
       // for the other
       // console.log("2 " + req.body.receiver);
       // User.updateOne(
@@ -60,11 +68,16 @@ exports.findChat = async (req, res) => {
         {
           path: "sender",
           model: "users",
-        },{
-          path: 'receiver',
-          model: 'users'
-        }
+        },
+        {
+          path: "receiver",
+          model: "users",
+        },
       ])
+      .populate({
+        path: "lastMessage",
+        model: "chats",
+      })
       .exec((error, chat) => {
         // console.log(chat);
         if (error) {
@@ -97,10 +110,12 @@ exports.findOne = async (req, res) => {
         match: {
           $or: [
             { sender: req.params.sender, receiver: req.params.receiver },
-            {  sender: req.params.receiver, receiver: req.params.sender },
+            { sender: req.params.receiver, receiver: req.params.sender },
           ],
         },
       })
+      
+      .sort({ timestamp: 1 })
       // .populate({ path: "receiver", model: "users" })
       .exec((error, chat) => {
         console.log(chat);

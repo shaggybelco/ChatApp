@@ -4,20 +4,26 @@ module.exports = (mongoose) => {
     mongoose.Schema(
       {
         name: String,
-        cellphone: {type: Number, unique: true, required: true},
-        password: {type: String, required: true},
-        chats: [{
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'chats'
-        }],
-        isAvatar:{
+        cellphone: { type: Number, unique: true, required: true },
+        password: { type: String, required: true },
+        chats: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "chats",
+          },
+        ],
+        isAvatar: {
           type: Boolean,
-          default: false
+          default: false,
         },
-        avatar:{
+        avatar: {
           type: String,
-          default: ""
-        }
+          default: "",
+        },
+        lastMessage: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "chats",
+        },
       },
       { timestamps: true }
     )
@@ -25,7 +31,6 @@ module.exports = (mongoose) => {
 
   return User;
 };
-
 
 // module.exports = mongoose => {
 //   var schema = mongoose.Schema(
