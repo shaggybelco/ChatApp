@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { io } from "socket.io-client";
 import { environment } from 'src/environments/environment';
+import { map } from 'rxjs/operators';
 
 const socket = io(`http://localhost:3333`);
 
@@ -17,6 +18,9 @@ export class ChatService {
 
 public message$: BehaviorSubject<any> = new BehaviorSubject({});
 public lastMessage$: BehaviorSubject<any> = new BehaviorSubject({});
+
+messageCount: any = 0;
+
   connect(id: any){
     socket.on("connect", () => {
       socket.emit('connected', id);
@@ -50,5 +54,13 @@ public lastMessage$: BehaviorSubject<any> = new BehaviorSubject({});
 
   getMessages(data: any): Observable<any>{
     return this.http.get(`${environment.baseUrl}/chat/${data.sender}/${data.receiver}`)
+  }
+
+  receiveMessage() {
+    this.messageCount++;
+  }
+
+  viewMessage() {
+    this.messageCount == 0;
   }
 }
