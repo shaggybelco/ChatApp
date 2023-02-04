@@ -55,12 +55,12 @@ export class MessagePage implements OnInit {
     const socket = io(`http://localhost:3333`);
 
     socket.on('mesRec', (mess: any) => {
-      console.log(mess);
+      // console.log(mess);
     });
 
     this.chat.getNewMessage().subscribe({
       next: (val: any) => {
-        console.log(val);
+        // console.log(val);
         this.message$.next(val[0].chats);
         this.message$.subscribe({
           next: (res: any) => {
@@ -81,7 +81,7 @@ export class MessagePage implements OnInit {
       next: (res: any) => {
         // console.log(res)
         this.msg = res[0].chats;
-        console.log(res[0]);
+        // console.log(res[0]);
         this.message$.next(this.msg);
       },
     });
