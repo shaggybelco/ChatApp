@@ -15,7 +15,7 @@ export class MessagePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private token: TokenService,
-    private chat: ChatService
+    private chat: ChatService,
   ) {}
 
   @ViewChild(IonContent) content!: IonContent;
