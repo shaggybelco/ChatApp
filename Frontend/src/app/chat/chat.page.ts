@@ -19,7 +19,7 @@ export class ChatPage implements OnInit {
 
 
   messageCount$!: Observable<any>;
-  messageCount = -1;
+  messageCount = 0;
 
   public users$: any;
 
@@ -28,7 +28,7 @@ export class ChatPage implements OnInit {
   badge: any;
 
   ngOnInit() {
-    this.messageCount$ = this.getMessageCount();
+    this.messageCount$ = this.chat.getMessageCount();
     this.hold = this.token.decode();
 
     console.log(this.hold.id + ' hold');
@@ -36,7 +36,7 @@ export class ChatPage implements OnInit {
     this.getAllUser(this.hold.id);
 
     this.chat.getLastMessage(this.hold.id).subscribe((res) => {
-      this.receiveMessage();
+      this.chat.receiveMessage();
       this.user.getAllUser(this.hold.id).subscribe({
         next: (res: any) => {
           this.users = res.users;
@@ -58,17 +58,17 @@ export class ChatPage implements OnInit {
     });
   }
 
-  receiveMessage() {
-    this.messageCount++;
-  }
+  // receiveMessage() {
+  //   this.messageCount++;
+  // }
 
-  viewMessage() {
-    this.messageCount == 0;
-  }
+  // viewMessage() {
+  //   this.messageCount == 0;
+  // }
 
-  getMessageCount() {
-    return new Observable(observer => {
-      observer.next(this.messageCount);
-    }).pipe(map(count => count));
-  }
+  // getMessageCount() {
+  //   return new Observable(observer => {
+  //     observer.next(this.messageCount);
+  //   }).pipe(map(count => count));
+  // }
 }

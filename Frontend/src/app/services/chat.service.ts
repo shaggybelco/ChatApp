@@ -58,15 +58,17 @@ messageCount: any = 0;
 
   receiveMessage() {
     this.messageCount++;
+    console.log('in')
   }
 
   viewMessage() {
-    this.messageCount == 0;
+    this.messageCount--;
+    console.log('out')
   }
 
-  getMessageCount(messageCount: number) {
+  getMessageCount() {
     return new Observable(observer => {
-      observer.next(messageCount);
+      observer.next(this.messageCount);
     }).pipe(map(count => count));
   }
 }
