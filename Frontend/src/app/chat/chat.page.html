@@ -18,8 +18,8 @@
         <p *ngIf="item.lastMessage.sender._id === hold.id"> ☑️ {{item.lastMessage.message}}</p>
         <p *ngIf="item.lastMessage.sender._id !== hold.id"> {{item.lastMessage.message}}</p>
       </ion-label>
-      <p *ngIf="messageCount$ | async as messageCount">
-        <ion-badge *ngIf="messageCount > 0 && item.lastMessage.sender._id !== hold.id"  slot="end">{{messageCount}}</ion-badge>
+      <p *ngIf="this.chat.getMessageCount() | async as messageCount">
+        <ion-badge *ngIf="messageCount > 0 && item.lastMessage.sender._id !== hold.id"  slot="end">{{this.chat.getMessageCount() | async}}</ion-badge>
       </p>
     </ion-item>
   </ion-list>

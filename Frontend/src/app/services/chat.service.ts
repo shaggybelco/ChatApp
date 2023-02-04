@@ -67,7 +67,7 @@ msgReset: any = -1;
     console.log(this.messageCount)
   }
 
-  getMessageCount() {
+  getMessageCount(): Observable<any> {
     return new Observable(observer => {
       observer.next(this.messageCount);
     }).pipe(map(count => count));

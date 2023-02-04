@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, DoCheck, OnInit, SimpleChanges } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
@@ -10,11 +10,11 @@ import { map } from 'rxjs/operators';
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
 })
-export class ChatPage implements OnInit {
+export class ChatPage implements OnInit, DoCheck {
   constructor(
     private token: TokenService,
     private user: UserService,
-    private chat: ChatService
+    public chat: ChatService
   ) {}
 
 
@@ -57,9 +57,10 @@ export class ChatPage implements OnInit {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes[this.hold].isFirstChange());
-    
+  ngDoCheck() {
+    this.chat.getMessageCount().subscribe((res: any)=>{
+      console.log(res)
+    })
   }
 
   // receiveMessage() {
