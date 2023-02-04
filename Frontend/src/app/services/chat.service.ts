@@ -63,4 +63,10 @@ messageCount: any = 0;
   viewMessage() {
     this.messageCount == 0;
   }
+
+  getMessageCount(messageCount: number) {
+    return new Observable(observer => {
+      observer.next(messageCount);
+    }).pipe(map(count => count));
+  }
 }
