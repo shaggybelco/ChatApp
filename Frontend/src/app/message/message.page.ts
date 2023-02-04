@@ -34,7 +34,6 @@ export class MessagePage implements OnInit {
 
   ngAfterViewChecked(){
     this.scrollToBottom();
-    console.log('viewed')
   }
 
   public message$: BehaviorSubject<any> = new BehaviorSubject([]);

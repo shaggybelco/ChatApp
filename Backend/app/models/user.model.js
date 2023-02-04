@@ -4,12 +4,20 @@ module.exports = (mongoose) => {
     mongoose.Schema(
       {
         name: String,
-        cellphone: {type: Number, unique: true},
-        password: String,
+        cellphone: {type: Number, unique: true, required: true},
+        password: {type: String, required: true},
         chats: [{
           type: mongoose.Schema.Types.ObjectId,
           ref: 'chats'
-        }]
+        }],
+        isAvatar:{
+          type: Boolean,
+          default: false
+        },
+        avatar:{
+          type: String,
+          default: ""
+        }
       },
       { timestamps: true }
     )

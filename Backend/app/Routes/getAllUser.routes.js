@@ -9,5 +9,6 @@ app.use(bodyparser.json());
 const controller = require("../controllers//getAllUser.controller");
 
 app.get("/user", controller.getUser);
+app.get('/userl', controller.getUserWithMessage);
 
 module.exports = app;
