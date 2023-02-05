@@ -54,4 +54,13 @@ export class ChatPage implements OnInit {
       },
     });
   }
+
+  markAsRead(){
+    this.chat.markAsRead(this.hold.id).subscribe((res: any)=>{
+       console.log(res);
+       this.getAllUser(this.hold.id);
+    },(err: any)=>{
+      console.log(err);
+    })
+  }
 }
