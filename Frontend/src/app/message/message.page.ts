@@ -64,7 +64,7 @@ export class MessagePage implements OnInit {
         this.message$.next(val[0].chats);
         this.message$.subscribe({
           next: (res: any) => {
-            // console.log(res);
+            console.log(res);
           },
         });
       },
@@ -79,7 +79,7 @@ export class MessagePage implements OnInit {
 
     this.chat.getMessages(data).subscribe({
       next: (res: any) => {
-        // console.log(res)
+        console.log(res)
         this.msg = res[0].chats;
         // console.log(res[0]);
         this.message$.next(this.msg);

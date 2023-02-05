@@ -114,14 +114,16 @@ exports.findOne = async (req, res) => {
           ],
         },
       })
-      
+
       .sort({ timestamp: 1 })
       // .populate({ path: "receiver", model: "users" })
       .exec((error, chat) => {
-        console.log(chat);
+        // console.log(chat);
         if (error) {
           res.status(400).json(error);
         }
+
+       
 
         res.status(200).json(chat);
       });
@@ -133,7 +135,25 @@ exports.findOne = async (req, res) => {
 };
 
 // Update a Tutorial by the id in the request
-exports.update = () => {};
+exports.update = (req, res, next) => {
+  try {
+    Chat.updateMany(
+      { receiver: req.params.receiver, isRead: false },
+      { $set: { isRead: true } },
+      (error, result) => {
+        if (error) {
+          res.status(400).json(error);
+        }
+        console.log(result)
+  
+        // res.status(200).json(result);
+      }
+    );
+  } catch (error) {
+    next(error)
+  }
+ 
+};
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = () => {};

@@ -27,18 +27,18 @@
       </ion-avatar>
       <ion-label>
         {{item.name}}
-        <p *ngIf="item.lastMessage?.sender._id === hold.id">
+        <p *ngIf="item.lastMessage?.sender === hold.id">
           ☑️ {{item.lastMessage?.message}}
         </p>
-        <p *ngIf="item.lastMessage?.sender._id !== hold.id">
+        <p *ngIf="item.lastMessage?.sender !== hold.id">
           {{item.lastMessage?.message}}
         </p>
       </ion-label>
-      <p *ngIf="this.chat.getMessageCount() | async as messageCount">
+      <p >
         <ion-badge
-          *ngIf="messageCount > 0 && item.lastMessage?.sender._id !== hold.id"
+          *ngIf="item.unreadCount > 0 && item.lastMessage?.sender !== hold.id"
           slot="end"
-          >{{this.chat.getMessageCount() | async}}</ion-badge
+          >{{item.unreadCount}}</ion-badge
         >
       </p>
     </ion-item>
