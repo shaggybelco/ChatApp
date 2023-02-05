@@ -13,8 +13,16 @@
       <div class="hold" *ngFor="let item of message$ | async">
         <div [ngClass]="item.sender._id === hold.id ? 'from-me': 'from-them'">
           <p>{{item.message}}</p>
+          <span style="display: flex; justify-content: end;">{{transform(item.createdAt)}}</span>
         </div>
       </div>
+      <!-- <div class="hold" *ngFor="let item of message$ | async">
+      <div [ngClass]="item.sender._id === hold.id ? 'talk-bubble tri-right left-top': 'talk-bubbles tri-rights left-tops'">
+        <div class="talktext">
+          <p>{{item.message}}</p>
+        </div>
+      </div>
+      </div> -->
     </section>
   </div>
 </ion-content>

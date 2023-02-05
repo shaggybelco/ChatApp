@@ -8,7 +8,7 @@ ion-item {
 
 .hold {
   // max-width: 450px;
-  width: 95%;
+  width: 88%;
   margin: 5px auto;
   display: flex;
   flex-direction: column-reverse;
@@ -26,6 +26,7 @@ ion-item {
   color: white;
   background: cadetblue;
   border-radius: 10px;
+  float: right;
   margin-left: auto;
 }
 .from-them {
@@ -35,7 +36,7 @@ ion-item {
   border-radius: 10px;
   color: black;
   float: left;
-  margin-right: auto;
+  // margin-right: auto;
 }
 
 
@@ -69,4 +70,30 @@ ion-item {
 
 .message-container{
   height: 100vh;
+}
+
+.from-them:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -20px;
+	right: auto;
+  top: 0px;
+	bottom: auto;
+	border: 22px solid;
+	border-color: #e5e5ea transparent transparent transparent;
+}
+// me
+.from-me:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  right: -20px;
+	left: auto;
+  top: 0px;
+	bottom: auto;
+	border: 22px solid;
+	border-color: cadetblue transparent transparent transparent;
 }
