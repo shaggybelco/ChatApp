@@ -117,9 +117,9 @@ msgReset: any = 0;
   }
 
 
-  listenToTyping(): Observable<Boolean> {
+  listenToTyping(): Observable<any> {
     socket.on('typing', (username: string) => {
-      // console.log(username + ' is typing...');
+      console.log(username + ' is typing...');
       this.mess$.next(true);
       setTimeout(() => {
         this.mess$.next(false);

@@ -17,10 +17,13 @@ export class MessagePage implements OnInit {
     private token: TokenService,
     public chat: ChatService
   ) {
-    // this.chat.listenToTyping();
-    this.chat.getTyping().subscribe(sender => {
-      this.typing = true;
-    });
+    this.chat.listenToTyping().subscribe((val: any)=>{
+      console.log(val)
+      this.vals =val
+    })
+    // this.chat.getTyping().subscribe(sender => {
+    //   this.typing = true;
+    // });
 
     this.chat.getStopTyping().subscribe(sender => {
       setTimeout(() => {
@@ -28,6 +31,8 @@ export class MessagePage implements OnInit {
       }, 5000);
     });
   }
+
+  vals: any;
 
   @ViewChild(IonContent) content!: IonContent;
 
@@ -93,9 +98,6 @@ export class MessagePage implements OnInit {
 
     this.chat.startTyping({ receiver: this.id, message: this.message});
     this.typing = true;
-    setTimeout(() => {
-      this.typing = false;
-    }, 5000);
   }
 
   getMessages() {
