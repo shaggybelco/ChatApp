@@ -76,4 +76,8 @@ msgReset: any = 0;
       observer.next(this.messageCount);
     }).pipe(map(count => count));
   }
+
+  markAsRead(id: any): Observable<any>{
+    return this.http.put(`${environment.baseUrl}/update/${id}`, {isRead: true})
+  }
 }

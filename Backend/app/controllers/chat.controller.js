@@ -139,14 +139,14 @@ exports.update = (req, res, next) => {
   try {
     Chat.updateMany(
       { receiver: req.params.receiver, isRead: false },
-      { $set: { isRead: true } },
+      { $set: { isRead: req.body.isRead } },
       (error, result) => {
         if (error) {
           res.status(400).json(error);
         }
         console.log(result)
   
-        // res.status(200).json(result);
+        res.status(200).json(result);
       }
     );
   } catch (error) {
