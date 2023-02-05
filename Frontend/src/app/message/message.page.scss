@@ -25,18 +25,24 @@ ion-item {
   padding: 0px 15px;
   color: white;
   background: cadetblue;
-  border-radius: 10px;
+  border-radius: 5px;
   float: right;
   margin-left: auto;
+  p{
+    margin: 5px;
+  }
 }
 .from-them {
   position: relative;
   padding: 0px 15px;
   background: #e5e5ea;
-  border-radius: 10px;
+  border-radius: 5px;
   color: black;
   float: left;
   // margin-right: auto;
+  p{
+    margin: 5px;
+  }
 }
 
 

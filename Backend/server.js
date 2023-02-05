@@ -46,6 +46,57 @@ io.on("connection", (sockect) => {
     users[userID] = sockect.id;
   });
 
+  sockect.on('read', (msgRead)=>{
+    console.log(msgRead)
+    try {
+      Chat.updateMany(
+        { receiver: msgRead.receiver, isRead: false },
+        { $set: { isRead: true } },
+        (error, result) => {
+          User.find({ _id: msgRead.receiver })
+          .populate({
+            path: "chats",
+            populate: [
+              {
+                path: "sender",
+                model: "users",
+              },
+              {
+                path: "receiver",
+                model: "users",
+              },
+            ],
+            populate:{
+              path: 'lastMessage',
+              model: 'chats'
+            },
+            model: "chats",
+            match: {
+              $or: [
+                { sender: msgRead.sender, receiver: msgRead.receiver },
+                { sender: msgRead.receiver, receiver: msgRead.sender },
+              ],
+            },
+          })
+        
+          .exec((error, chat) => {
+            console.log(chat);
+            if (error) {
+              console.log(error);
+            }
+
+            console.log("emited");
+
+            io.to(msgRead.receiver).emit("mesRec", chat);
+            io.to(msgRead.sender).emit("mesRec", chat);
+          });
+        }
+      );
+    } catch (error) {
+      next(error)
+    }
+  })
+
   sockect.on("send", async (data) => {
     const otherUser = await User.find({ _id: data.receiver });
 

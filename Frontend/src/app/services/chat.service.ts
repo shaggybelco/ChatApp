@@ -18,6 +18,7 @@ export class ChatService {
 
 public message$: BehaviorSubject<any> = new BehaviorSubject({});
 public lastMessage$: BehaviorSubject<any> = new BehaviorSubject({});
+public read$: BehaviorSubject<any> = new BehaviorSubject({});
 
 messageCount: any = -1;
 msgReset: any = 0;
@@ -45,12 +46,26 @@ msgReset: any = 0;
     return this.message$.asObservable();
   };
 
+  public getRead = () => {
+    socket.on('mesRec', (message) =>{
+      // console.log(message)
+      this.read$.next(message);
+    });
+
+    return this.read$.asObservable();
+  };
+
   public getLastMessage = (id: any) =>{
     socket.on('mesRec', (message) =>{
       this.user.getAllUser(id);
       this.lastMessage$.next('1');
+      // console.log(message)
     });
     return this.lastMessage$.asObservable();
+  }
+
+  public getIsRead = (data: any) =>{
+    socket.emit('read', data)
   }
 
   getMessages(data: any): Observable<any>{

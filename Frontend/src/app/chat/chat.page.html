@@ -28,14 +28,18 @@
       </ion-avatar>
       <ion-label>
         {{item.name}}
-        <p *ngIf="item.lastMessage?.sender === hold.id">
-          ☑️ {{item.lastMessage?.message}}
+        <p
+          *ngIf="item.lastMessage?.sender === hold.id"
+        >
+          <ion-icon *ngIf="item.lastMessage?.isRead" style="padding-top: 5px; color: cadetblue;" name="checkmark-done-sharp"></ion-icon>
+          <ion-icon *ngIf="item.lastMessage?.isRead === false" style="padding-top: 5px;" name="checkmark-sharp"></ion-icon>
+          {{item.lastMessage?.message}}
         </p>
-        <p *ngIf="item.lastMessage?.sender !== hold.id">
+        <p *ngIf="item.lastMessage?.sender !== hold.id" style="padding-top: 4px;">
           {{item.lastMessage?.message}}
         </p>
       </ion-label>
-      <p >
+      <p>
         <ion-badge
           *ngIf="item.unreadCount > 0 && item.lastMessage?.sender !== hold.id"
           slot="end"
@@ -50,14 +54,22 @@
     </ion-fab-button>
   </ion-fab>
 
-
-  <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+  <ion-modal
+    #modal
+    trigger="open-modal"
+    [initialBreakpoint]="0.25"
+    [breakpoints]="[0, 0.25, 0.5, 0.75]"
+  >
     <ng-template>
       <ion-content>
         <!-- <ion-searchbar placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar> -->
         <ion-list>
           <ion-item button>
-            <ion-icon style="font-size: 2.5rem;" slot="start" name="person-circle-sharp"></ion-icon>
+            <ion-icon
+              style="font-size: 2.5rem"
+              slot="start"
+              name="person-circle-sharp"
+            ></ion-icon>
             <ion-label>
               <h2>Profile</h2>
             </ion-label>

@@ -34,8 +34,15 @@ export class ChatPage implements OnInit {
     this.getAllUser(this.hold.id);
     this.chat.connect(this.hold.id)
 
+   
+
     this.chat.getLastMessage(this.hold.id).subscribe((res) => {
+      // console.log('ran')
+      this.chat.getRead().subscribe((res: any)=>{
+        // console.log(res);
+      })
       this.chat.receiveMessage();
+      
       this.user.getAllUser(this.hold.id).subscribe({
         next: (res: any) => {
           this.users = res;
@@ -50,15 +57,16 @@ export class ChatPage implements OnInit {
     this.user.getAllUser(id).subscribe({
       next: (res: any) => {
         this.users = res;
-        console.log(res);
+        // console.log(res);
       },
     });
   }
 
   markAsRead(){
     this.chat.markAsRead(this.hold.id).subscribe((res: any)=>{
-       console.log(res);
+      //  console.log(res);
        this.getAllUser(this.hold.id);
+
     },(err: any)=>{
       console.log(err);
     })
