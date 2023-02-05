@@ -3,26 +3,27 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/chat"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{name | titlecase}}</ion-title>
+    <ion-title>{{name | titlecase}} </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [scrollY]="true" [fullscreen]="true">
   <div class="ion-content-scroll-host ion-padding">
-    <section id="message-container" style="overflow-y: scroll;">
+    <section id="message-container" style="overflow-y: scroll">
       <div class="hold" *ngFor="let item of message$ | async">
         <div [ngClass]="item.sender._id === hold.id ? 'from-me': 'from-them'">
           <p>{{item.message}}</p>
-          <span style="display: flex; justify-content: end;">{{transform(item.createdAt)}}</span>
+          <span style="display: flex; justify-content: end"
+            >{{transform(item.createdAt)}}</span
+          >
         </div>
       </div>
-      <!-- <div class="hold" *ngFor="let item of message$ | async">
-      <div [ngClass]="item.sender._id === hold.id ? 'talk-bubble tri-right left-top': 'talk-bubbles tri-rights left-tops'">
-        <div class="talktext">
-          <p>{{item.message}}</p>
+
+      <div class="typeHold">
+        <div *ngIf="chat.listenToTyping() | async" class="from-them">
+          <p>typing...</p>
         </div>
       </div>
-      </div> -->
     </section>
   </div>
 </ion-content>
@@ -36,7 +37,13 @@
         </ion-button>
       </ion-buttons>
 
-      <textarea class="chat-input" placeholder="Type message" (keyup.enter)="send()" [(ngModel)]="message"></textarea>
+      <textarea
+        class="chat-input"
+        placeholder="Type message"
+        (keypress)="startTyping()"
+        (keyup.enter)="send()"
+        [(ngModel)]="message"
+      ></textarea>
       <ion-buttons>
         <ion-button type="submit" (keyup.enter)="send()" (click)="send()">
           <ion-icon style="font-size: 2rem" name="send-sharp"></ion-icon>

@@ -46,6 +46,14 @@ io.on("connection", (sockect) => {
     users[userID] = sockect.id;
   });
 
+  sockect.on('typing', (data) => {
+    console.log(data);
+    if (users[data.receiver]) {
+      io.to(users[data.receiver]).emit('typing', 'typing');
+      console.log('type')
+    }
+  });
+
   sockect.on('read', (msgRead)=>{
     console.log(msgRead)
     try {

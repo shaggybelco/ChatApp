@@ -2,7 +2,7 @@ import { UserService } from './user.service';
 import { User } from './../model/user';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { io } from "socket.io-client";
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
@@ -14,11 +14,19 @@ const socket = io(`http://localhost:3333`);
 })
 export class ChatService {
 
-  constructor(private http: HttpClient, private user: UserService) { }
+  constructor(private http: HttpClient, private user: UserService) { 
+    socket.on('typing', sender => {
+      this.typing.next(sender);
+    });
+  }
 
 public message$: BehaviorSubject<any> = new BehaviorSubject({});
 public lastMessage$: BehaviorSubject<any> = new BehaviorSubject({});
 public read$: BehaviorSubject<any> = new BehaviorSubject({});
+public mess$: BehaviorSubject<any> = new BehaviorSubject(false);
+
+private typing = new Subject<string>();
+  private stopTyping = new Subject<string>();
 
 messageCount: any = -1;
 msgReset: any = 0;
@@ -94,5 +102,30 @@ msgReset: any = 0;
 
   markAsRead(id: any): Observable<any>{
     return this.http.put(`${environment.baseUrl}/update/${id}`, {isRead: true})
+  }
+
+  startTyping(data: any){
+    socket.emit('typing', data);
+  }
+
+  getTyping() {
+    return this.typing.asObservable();
+  }
+
+  getStopTyping() {
+    return this.stopTyping.asObservable();
+  }
+
+
+  listenToTyping(): Observable<Boolean> {
+    socket.on('typing', (username: string) => {
+      // console.log(username + ' is typing...');
+      this.mess$.next(true);
+      setTimeout(() => {
+        this.mess$.next(false);
+      }, 5000);
+    });
+
+    return this.mess$.asObservable();
   }
 }

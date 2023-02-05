@@ -103,3 +103,17 @@ ion-item {
 	border: 22px solid;
 	border-color: cadetblue transparent transparent transparent;
 }
+
+.typeHold{
+  // max-width: 40%;
+  width: 88%;
+  margin: 5px auto;
+  display: flex;
+  flex-direction: column-reverse;
+  div {
+    max-width: 65%;
+    word-wrap: break-word;
+    margin-bottom: 12px;
+    line-height: 24px;
+  }
+}

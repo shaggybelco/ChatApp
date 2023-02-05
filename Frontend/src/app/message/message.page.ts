@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { io } from 'socket.io-client';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { IonContent } from '@ionic/angular';
 
 @Component({
@@ -15,8 +15,19 @@ export class MessagePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private token: TokenService,
-    private chat: ChatService
-  ) {}
+    public chat: ChatService
+  ) {
+    // this.chat.listenToTyping();
+    this.chat.getTyping().subscribe(sender => {
+      this.typing = true;
+    });
+
+    this.chat.getStopTyping().subscribe(sender => {
+      setTimeout(() => {
+        this.typing = false;
+      }, 5000);
+    });
+  }
 
   @ViewChild(IonContent) content!: IonContent;
 
@@ -77,6 +88,16 @@ export class MessagePage implements OnInit {
     });
   }
 
+  typing = false;
+  startTyping() {
+
+    this.chat.startTyping({ receiver: this.id, message: this.message});
+    this.typing = true;
+    setTimeout(() => {
+      this.typing = false;
+    }, 5000);
+  }
+
   getMessages() {
     const data = {
       sender: this.hold.id,
@@ -102,10 +123,13 @@ export class MessagePage implements OnInit {
         receiver: this.id,
         message: this.message,
       };
-
+      this.typing = false;
       this.message = '';
 
       this.chat.sendMessage(messageData);
+      this.chat.getStopTyping().subscribe(sender=>{
+        this.typing =false;
+      })
     }
   }
 
