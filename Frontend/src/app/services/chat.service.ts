@@ -20,7 +20,7 @@ public message$: BehaviorSubject<any> = new BehaviorSubject({});
 public lastMessage$: BehaviorSubject<any> = new BehaviorSubject({});
 
 messageCount: any = -1;
-msgReset: any = -1;
+msgReset: any = 0;
 
   connect(id: any){
     socket.on("connect", () => {
@@ -58,13 +58,17 @@ msgReset: any = -1;
   }
 
   receiveMessage() {
-    this.messageCount++;
-    console.log(this.messageCount)
+    if(this.messageCount === -1){
+      this.messageCount = 0;
+    }else{
+      this.messageCount++;
+    }
+    // console.log(this.messageCount)
   }
 
   viewMessage() {
     this.messageCount = this.msgReset;
-    console.log(this.messageCount)
+    // console.log(this.messageCount)
   }
 
   getMessageCount(): Observable<any> {

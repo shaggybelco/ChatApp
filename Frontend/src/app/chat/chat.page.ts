@@ -27,7 +27,6 @@ export class ChatPage implements OnInit {
   badge: any;
 
   ngOnInit() {
-    this.messageCount$ = this.chat.getMessageCount();
     this.hold = this.token.decode();
 
     // console.log(this.hold.id + ' hold');
@@ -51,7 +50,7 @@ export class ChatPage implements OnInit {
     this.user.getAllUser(id).subscribe({
       next: (res: any) => {
         this.users = res.users;
-        // console.log(res.users);
+        console.log(res.users);
       },
     });
   }
