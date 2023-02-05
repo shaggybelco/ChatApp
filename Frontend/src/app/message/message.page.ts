@@ -55,13 +55,13 @@ export class MessagePage implements OnInit {
     const socket = io(`http://localhost:3333`);
 
     socket.on('mesRec', (mess: any) => {
-      console.log('mess');
+      // console.log('mess');
     });
 
     this.chat.getIsRead({isRead: true, receiver: this.id, sender: this.hold.id});
 
     this.chat.getRead().subscribe((res: any)=>{
-      console.log('reading');
+      // console.log('reading');
     })
 
     this.chat.getNewMessage().subscribe({

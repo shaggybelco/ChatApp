@@ -13,6 +13,10 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list>
     <ion-item
       button
@@ -28,24 +32,38 @@
       </ion-avatar>
       <ion-label>
         {{item.name}}
+        <p *ngIf="item.lastMessage?.sender === hold.id">
+          <ion-icon
+            *ngIf="item.lastMessage?.isRead"
+            style="padding-top: 5px; color: cadetblue"
+            name="checkmark-done-sharp"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="item.lastMessage?.isRead === false"
+            style="padding-top: 5px"
+            name="checkmark-done-sharp"
+          ></ion-icon>
+          {{item.lastMessage?.message}}
+        </p>
         <p
-          *ngIf="item.lastMessage?.sender === hold.id"
+          *ngIf="item.lastMessage?.sender !== hold.id"
+          style="padding-top: 4px"
         >
-          <ion-icon *ngIf="item.lastMessage?.isRead" style="padding-top: 5px; color: cadetblue;" name="checkmark-done-sharp"></ion-icon>
-          <ion-icon *ngIf="item.lastMessage?.isRead === false" style="padding-top: 5px;" name="checkmark-sharp"></ion-icon>
           {{item.lastMessage?.message}}
         </p>
-        <p *ngIf="item.lastMessage?.sender !== hold.id" style="padding-top: 4px;">
-          {{item.lastMessage?.message}}
+        <p></p
+      ></ion-label>
+
+      <div class="time">
+        <p class="tms">{{transform(item.lastMessage.createdAt)}}</p>
+        <p>
+          <ion-badge
+            *ngIf="item.unreadCount > 0 && item.lastMessage?.sender !== hold.id"
+            slot="end"
+            >{{item.unreadCount}}</ion-badge
+          >
         </p>
-      </ion-label>
-      <p>
-        <ion-badge
-          *ngIf="item.unreadCount > 0 && item.lastMessage?.sender !== hold.id"
-          slot="end"
-          >{{item.unreadCount}}</ion-badge
-        >
-      </p>
+      </div>
     </ion-item>
   </ion-list>
   <ion-fab slot="fixed" [edge]="false" vertical="bottom" horizontal="end">
