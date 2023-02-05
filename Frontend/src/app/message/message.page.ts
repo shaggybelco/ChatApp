@@ -18,7 +18,7 @@ export class MessagePage implements OnInit {
     public chat: ChatService
   ) {
     this.chat.listenToTyping().subscribe((val: any)=>{
-      console.log(val)
+      // console.log(val)
       this.vals =val
     })
     // this.chat.getTyping().subscribe(sender => {
