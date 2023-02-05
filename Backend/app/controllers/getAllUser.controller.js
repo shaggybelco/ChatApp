@@ -47,12 +47,20 @@ exports.getUserWithMessage = async (req, res) => {
           chatUsers.delete(user._id.toString());
           User.find({ _id: { $in: Array.from(chatUsers) } }).populate({
             path: "lastMessage",
-           
             model: "chats",
+          }).populate({
+            path: 'chats',
+            model: 'chats'
           })
           .then((users) => {
-            //  console.log(users);
-            res.status(200).json(users);
+            const usersWithUnreadCount = users.map((user) => {
+              return {
+                ...user.toJSON(),
+                unreadCount: user.chats.filter((chat) => !chat.isRead).length,
+              };
+            });
+        
+            res.status(200).json( usersWithUnreadCount );
           });
 
           //  console.log(lastMessage);

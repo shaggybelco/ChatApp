@@ -10,6 +10,10 @@ module.exports = (mongoose) => {
         ref: "users",
       },
       message: String,
+      isRead: {
+        type: Boolean,
+        default: false,
+      },
     },
     { timestamps: true }
   );
