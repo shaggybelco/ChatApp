@@ -38,7 +38,7 @@ export class ChatPage implements OnInit {
       this.chat.receiveMessage();
       this.user.getAllUser(this.hold.id).subscribe({
         next: (res: any) => {
-          this.users = res.users;
+          this.users = res;
           // console.log(res.users);
         },
       });
@@ -49,8 +49,8 @@ export class ChatPage implements OnInit {
   getAllUser(id: any) {
     this.user.getAllUser(id).subscribe({
       next: (res: any) => {
-        this.users = res.users;
-        console.log(res.users);
+        this.users = res;
+        console.log(res);
       },
     });
   }
