@@ -25,11 +25,11 @@ export class MessagePage implements OnInit {
     //   this.typing = true;
     // });
 
-    this.chat.getStopTyping().subscribe(sender => {
-      setTimeout(() => {
-        this.typing = false;
-      }, 5000);
-    });
+    // this.chat.getStopTyping().subscribe(sender => {
+    //   setTimeout(() => {
+    //     this.typing = false;
+    //   }, 5000);
+    // });
   }
 
   vals: any;
@@ -108,7 +108,7 @@ export class MessagePage implements OnInit {
 
     this.chat.getMessages(data).subscribe({
       next: (res: any) => {
-        // console.log(res)
+        console.log(res)
         this.msg = res[0].chats;
         // console.log(res[0]);
         this.message$.next(this.msg);

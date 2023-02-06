@@ -32,7 +32,7 @@
       </ion-avatar>
       <ion-label>
         {{item.name}}
-        <p *ngIf="item.lastMessage?.sender === hold.id">
+        <p *ngIf="item.lastMessage?.sender === hold.id && !vals">
           <ion-icon
             *ngIf="item.lastMessage?.isRead"
             style="padding-top: 5px; color: cadetblue"
@@ -46,13 +46,13 @@
           {{item.lastMessage?.message}}
         </p>
         <p
-          *ngIf="item.lastMessage?.sender !== hold.id"
+          *ngIf="item.lastMessage?.sender !== hold.id && !vals"
           style="padding-top: 4px"
         >
           {{item.lastMessage?.message}}
         </p>
-        <p></p
-      ></ion-label>
+        <p style="display: flex;" *ngIf="vals" class="tms">Typing..</p>
+      </ion-label>
 
       <div class="time">
         <p class="tms">{{transform(item.lastMessage.createdAt)}}</p>

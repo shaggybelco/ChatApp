@@ -10,20 +10,56 @@
 <ion-content [scrollY]="true" [fullscreen]="true">
   <div class="ion-content-scroll-host ion-padding">
     <section id="message-container" style="overflow-y: scroll">
-      <div class="hold" *ngFor="let item of message$ | async">
-        <div [ngClass]="item.sender._id === hold.id ? 'from-me': 'from-them'">
-          <p>{{item.message}}</p>
-          <span style="display: flex; justify-content: end"
-            >{{transform(item.createdAt)}}</span
+      <div class="" *ngFor="let item of message$ | async">
+        <div
+          [ngClass]="item.sender._id === hold.id ? 'chat chat-end': 'chat chat-start'"
+        >
+          <div class="chat-image avatar">
+            <div class="w-10 rounded-full">
+              <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            </div>
+          </div>
+          <div class="chat-header">
+            {{item.sender.name}}
+            <time class="text-xs opacity-50"
+              >{{transform(item.createdAt)}}</time
+            >
+          </div>
+          <div
+            [ngClass]="item.sender._id === hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'"
           >
+            {{item.message}}
+          </div>
+          <div class="chat-footer opacity-50">
+            <ion-icon
+              *ngIf="item.isRead === true && item.sender._id === hold.id"
+              style="padding-top: 5px; color: cadetblue"
+              name="checkmark-done-sharp"
+            ></ion-icon>
+            <ion-icon
+              *ngIf="item.isRead === false && item.sender._id === hold.id"
+              style="padding-top: 5px"
+              name="checkmark-sharp"
+            ></ion-icon>
+          </div>
         </div>
       </div>
 
-      <div class="typeHold">
+      <div *ngIf="vals" class="chat chat-start">
+        <div class="chat-image avatar">
+          <div class="w-10 rounded-full">
+            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          </div>
+        </div>
+
+        <div class="chat-bubble chat-bubble-primary">Typing...</div>
+      </div>
+
+      <!-- <div class="typeHold">
         <div *ngIf="vals" class="from-them">
           <p>typing...</p>
         </div>
-      </div>
+      </div> -->
     </section>
   </div>
 </ion-content>

@@ -15,9 +15,14 @@ export class ChatPage implements OnInit {
     private token: TokenService,
     private user: UserService,
     public chat: ChatService
-  ) {}
+  ) {
+    this.chat.listenToTyping().subscribe((val: any)=>{
+      // console.log(val)
+      this.vals =val
+    })
+  }
 
-
+  vals: any;
   messageCount$!: Observable<any>;
 
   public users$: any;
