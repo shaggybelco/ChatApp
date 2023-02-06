@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ContactsComponent } from './contacts/contacts.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,9 @@ const routes: Routes = [
   },{
     path: 'contacts',
     component: ContactsComponent
+  },{
+    path: 'profile/:id',
+    component: ProfileComponent
   }
 
 ];

@@ -82,7 +82,7 @@
       <ion-content>
         <!-- <ion-searchbar placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar> -->
         <ion-list>
-          <ion-item button>
+          <ion-item button [routerLink]="['/profile',hold.id]" >
             <ion-icon
               style="font-size: 2.5rem"
               slot="start"

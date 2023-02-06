@@ -70,3 +70,13 @@ exports.getUserWithMessage = async (req, res) => {
 
   // res.status(200).json(lastMessages);
 };
+
+exports.getMe = async(req, res, next)=>{
+  try {
+     const hold = await User.find({_id: req.params.id});
+
+       res.status(200).json(hold);
+  } catch (error) {
+    next(error)
+  }
+}

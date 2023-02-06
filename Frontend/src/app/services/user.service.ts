@@ -14,5 +14,7 @@ export class UserService {
     return this.http.get(`${environment.baseUrl}/userl/${userId}`);
   }
 
-  
+  getMe(userId: any): Observable<any>{
+    return this.http.get(`${environment.baseUrl}/me/${userId}`);
+  }
 }
