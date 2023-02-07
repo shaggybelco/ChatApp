@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/chat"></ion-back-button>
+      <ion-back-button defaultHref="/chat" (click)="markAsRead()"></ion-back-button>
     </ion-buttons>
     <ion-title>{{name | titlecase}} </ion-title>
   </ion-toolbar>
@@ -14,11 +14,7 @@
         <div
           [ngClass]="item.sender._id === hold.id ? 'chat chat-end': 'chat chat-start'"
         >
-          <div class="chat-image avatar">
-            <div class="w-10 rounded-full">
-              <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-            </div>
-          </div>
+         
           <div class="chat-header">
             {{item.sender.name}}
             <time class="text-xs opacity-50"
@@ -46,11 +42,7 @@
       </div>
 
       <div *ngIf="vals" class="chat chat-start">
-        <div class="chat-image avatar">
-          <div class="w-10 rounded-full">
-            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-          </div>
-        </div>
+       
 
         <div class="chat-bubble chat-bubble-primary">Typing...</div>
       </div>

@@ -49,8 +49,12 @@ export class MessagePage implements OnInit {
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
     this.chat.viewMessage();
+    // this.markAsRead();
+  }
+
+  ngAfterViewInit(){
+    this.scrollToBottom();
   }
 
   public message$: BehaviorSubject<any> = new BehaviorSubject([]);
@@ -153,5 +157,15 @@ export class MessagePage implements OnInit {
     }
     const plural = Math.floor(time) > 1 ? 's' : '';
     return Math.floor(time) + string[i] + plural + ' ago';
+  }
+
+  markAsRead(){
+    this.chat.markAsRead(this.id).subscribe((res: any)=>{
+      //  console.log(res);
+      //  this.getAllUser(this.hold.id);
+
+    },(err: any)=>{
+      console.log(err);
+    })
   }
 }
