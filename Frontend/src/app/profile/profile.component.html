@@ -36,15 +36,15 @@
         <ion-toolbar>
           <ion-title>Update profile</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="modal.dismiss()">Close</ion-button>
+            <ion-button (click)="modal.dismiss()">Save</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
         <div class="avte">
-        <ion-avatar >
-          <img *ngIf="me.isAvatar" [src]="me.avatar"/>
-          <img *ngIf="!me.isAvatar" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+        <ion-avatar class="avt">
+          <img *ngIf="me.isAvatar"  [src]="me.avatar"/>
+          <img *ngIf="!me.isAvatar"  src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
         </ion-avatar>
        
       </div>

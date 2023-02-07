@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [scrollY]="true" [fullscreen]="true">
-  <div class="ion-content-scroll-host ion-padding">
+  <div class="ion-padding h">
     <section id="message-container" style="overflow-y: scroll">
       <div class="" *ngFor="let item of message$ | async">
         <div [ngClass]="item.sender._id === hold.id ? 'chat chat-end': 'chat chat-start'">
@@ -44,21 +44,23 @@
   </div>
 </ion-content>
 
-<ion-footer collapse="fade">
+<ion-footer class="ion-no-border mb-3 z-0" collapse="fade">
   <ion-toolbar>
     <ion-item lines="none">
 
+      <ion-buttons>
+        <ion-button>
+          <ion-icon style="font-size: 1.3rem" name="image-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
 
-      <ion-input placeholder="Type message" (keypress)="startTyping()" (keyup.enter)="send()" [(ngModel)]="message">
-        <ion-buttons>
-          <ion-button>
-            <ion-icon style="font-size: 2rem" name="image-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-input>
+      <ion-textarea [autoGrow]="true" placeholder="Type message" (keypress)="startTyping()" (keyup.enter)="send()"
+        [(ngModel)]="message">
+
+      </ion-textarea>
       <ion-buttons>
         <ion-button type="submit" (keyup.enter)="send()" (click)="send()">
-          <ion-icon style="font-size: 2rem" name="send-sharp"></ion-icon>
+          <ion-icon style="font-size: 1.3rem" name="send-sharp"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-item>

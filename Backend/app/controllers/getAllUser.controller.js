@@ -79,4 +79,30 @@ exports.getMe = async(req, res, next)=>{
   } catch (error) {
     next(error)
   }
+
+  exports.updateProfile = async (req, res, next) => {
+    const { image } = req.body;
+    const { id } = req.params.id;
+    try {
+      const results = await cloudinary.uploader.upload(image, {
+        folder: "chatPP",
+      });
+  
+      console.log(results)
+  
+      const updated = User.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: { avatar: results.secure_url, isAvatar: true } },
+        { returnOriginal: false },
+        (error) => {
+          if (error) return console.error(error);
+        }
+      );
+  
+      res.status(200).json(updated);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }

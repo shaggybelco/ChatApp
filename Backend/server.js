@@ -47,10 +47,10 @@ io.on("connection", (sockect) => {
   });
 
   sockect.on('typing', (data) => {
-    console.log(data);
+    // console.log(data);
     if (users[data.receiver]) {
       io.to(users[data.receiver]).emit('typing', 'typing');
-      console.log('type')
+      // console.log('type')
     }
   });
 

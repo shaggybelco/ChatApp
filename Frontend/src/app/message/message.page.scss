@@ -117,3 +117,30 @@ ion-item {
     line-height: 24px;
   }
 }
+
+.ios ion-textarea{
+  --padding-bottom: 0;
+  --padding-top: 24px;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+ion-textarea{
+  --padding-bottom: 0;
+  --padding-top: 17px;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+ion-footer ion-toolbar{
+  border-radius: 30px;
+  background-color: black;
+}
+
+.h{
+  // height: 100%;
+  width: 100%;
+  left: 0;
+}
+
+

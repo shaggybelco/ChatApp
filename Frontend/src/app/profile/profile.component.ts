@@ -9,22 +9,28 @@ import { ActionSheetController } from '@ionic/angular';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-
-  constructor(private prof: UserService, private route: ActivatedRoute,private actionSheetCtrl: ActionSheetController) { }
+  constructor(
+    private prof: UserService,
+    private route: ActivatedRoute,
+    private actionSheetCtrl: ActionSheetController
+  ) {}
 
   presentingElement = undefined;
   id = this.route.snapshot.params['id'];
   me: any = {};
-  username: string = "";
+  username: string = '';
 
   ngOnInit() {
-    this.prof.getMe(this.id).subscribe((res:any)=>{
-      console.log(res[0]);
-      this.me = res[0];
-      this.username = this.me.name;
-    }, (err: any)=>{
-      console.log(err);
-    })
+    this.prof.getMe(this.id).subscribe(
+      (res: any) => {
+        console.log(res[0]);
+        this.me = res[0];
+        this.username = this.me.name;
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
   }
 
   file: any;
@@ -60,6 +66,13 @@ export class ProfileComponent implements OnInit {
 
     const { role } = await actionSheet.onWillDismiss();
 
+    console.log(role);
+
+    if (role === 'cancel') {
+      return;
+    } else if (role === 'confirm') {
+      console.log('something');
+    }
     return role === 'confirm';
   };
 }
