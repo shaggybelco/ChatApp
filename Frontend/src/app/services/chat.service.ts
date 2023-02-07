@@ -55,7 +55,7 @@ msgReset: any = 0;
   };
 
   public getRead = () => {
-    socket.on('mesRec', (message) =>{
+    socket.on('read', (message) =>{
       // console.log(message)
       this.read$.next(message);
     });

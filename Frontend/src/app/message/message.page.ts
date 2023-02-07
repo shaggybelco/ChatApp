@@ -17,10 +17,10 @@ export class MessagePage implements OnInit {
     private token: TokenService,
     public chat: ChatService
   ) {
-    this.chat.listenToTyping().subscribe((val: any)=>{
+    this.chat.listenToTyping().subscribe((val: any) => {
       // console.log(val)
-      this.vals =val
-    })
+      this.vals = val;
+    });
     // this.chat.getTyping().subscribe(sender => {
     //   this.typing = true;
     // });
@@ -40,8 +40,8 @@ export class MessagePage implements OnInit {
     // Passing a duration to the method makes it so the scroll slowly
     // goes to the bottom instead of instantly
     this.content.scrollToBottom(500);
+    // this.markAsRead();
   }
-  
 
   scrollToTop() {
     // Passing a duration to the method makes it so the scroll slowly
@@ -63,24 +63,24 @@ export class MessagePage implements OnInit {
   hold: any = this.token.decode();
 
   msg: any = [];
+  socket = io(`http://localhost:3333`);
 
   ngOnInit() {
-    
+    this.markAsRead();
+
     this.chat.connect(this.hold.id);
 
     this.getMessages();
 
-    const socket = io(`http://localhost:3333`);
-
-    socket.on('mesRec', (mess: any) => {
-      // console.log('mess');
+    this.chat.getIsRead({
+      isRead: true,
+      receiver: this.id,
+      sender: this.hold.id,
     });
 
-    this.chat.getIsRead({isRead: true, receiver: this.id, sender: this.hold.id});
-
-    this.chat.getRead().subscribe((res: any)=>{
+    this.chat.getRead().subscribe((res: any) => {
       // console.log('reading');
-    })
+    });
 
     this.chat.getNewMessage().subscribe({
       next: (val: any) => {
@@ -97,8 +97,7 @@ export class MessagePage implements OnInit {
 
   typing = false;
   startTyping() {
-
-    this.chat.startTyping({ receiver: this.id, message: this.message});
+    this.chat.startTyping({ receiver: this.id, message: this.message });
     this.typing = true;
   }
 
@@ -110,7 +109,7 @@ export class MessagePage implements OnInit {
 
     this.chat.getMessages(data).subscribe({
       next: (res: any) => {
-        console.log(res)
+        console.log(res);
         this.msg = res[0].chats;
         // console.log(res[0]);
         this.message$.next(this.msg);
@@ -131,9 +130,9 @@ export class MessagePage implements OnInit {
       this.message = '';
 
       this.chat.sendMessage(messageData);
-      this.chat.getStopTyping().subscribe(sender=>{
-        this.typing =false;
-      })
+      this.chat.getStopTyping().subscribe((sender) => {
+        this.typing = false;
+      });
     }
   }
 
@@ -157,13 +156,15 @@ export class MessagePage implements OnInit {
     return Math.floor(time) + string[i] + plural + ' ago';
   }
 
-  markAsRead(){
-    this.chat.markAsRead(this.id).subscribe((res: any)=>{
-      //  console.log(res);
-      //  this.getAllUser(this.hold.id);
-
-    },(err: any)=>{
-      console.log(err);
-    })
+  markAsRead() {
+    this.chat.markAsRead(this.id).subscribe(
+      (res: any) => {
+        //  console.log(res);
+        //  this.getAllUser(this.hold.id);
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
   }
 }
