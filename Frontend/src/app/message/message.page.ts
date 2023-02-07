@@ -51,7 +51,6 @@ export class MessagePage implements OnInit {
 
   ngAfterViewChecked() {
     this.chat.viewMessage();
-    // this.markAsRead();
     this.scrollToBottom();
   }
 
