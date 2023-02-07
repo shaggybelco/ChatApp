@@ -9,23 +9,18 @@
 
 <ion-content>
   <ion-card class="mt-6">
-    <ion-img lazy src="https://picsum.photos/200/100"></ion-img>
+    <ion-img *ngIf="!me.isAvatar" lazy src="https://ionicframework.com/docs/img/demos/avatar.svg"></ion-img>
+    <ion-img lazy alt="Silhouette of a person's head" *ngIf="me.isAvatar" [src]="me.avatar"></ion-img>
     <ion-card-header>
 
-      <div class="hold z-50">
-        <ion-avatar slot="start" class="avt">
-          <img alt="Silhouette of a person's head" *ngIf="!me.isAvatar" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-          <img alt="Silhouette of a person's head" *ngIf="me.isAvatar" [src]="me.avatar" />
-        </ion-avatar>
-      </div>
-      <ion-item>
+      <ion-item lines="none">
 
       
       <ion-label>
        {{me.name}}
         <p>0{{me.cellphone}}</p>
       </ion-label>
-      <ion-text button id="open-modal">
+      <ion-text button id="open-modal-1">
         <ion-icon name="pencil-sharp"></ion-icon>
       </ion-text>
      
@@ -35,7 +30,7 @@
 
   </ion-card>
 
-  <ion-modal #modal trigger="open-modal" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+  <ion-modal #modal trigger="open-modal-1" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
     <ng-template>
       <ion-header>
         <ion-toolbar>
@@ -55,6 +50,13 @@
       </div>
       <div class="avte">
         <ion-button (click)="openFileBrowser()">Change picture</ion-button>
+      </div>
+
+      <div class="avte">
+        <ion-item lines="none" style="width: 100%;">
+          <ion-label position="floating">Your username</ion-label>
+          <ion-input style="background-color: transparent;" placeholder="Enter username" [(ngModel)]="username"></ion-input>
+        </ion-item>
       </div>
       </ion-content>
     </ng-template>

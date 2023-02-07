@@ -11,38 +11,26 @@
   <div class="ion-content-scroll-host ion-padding">
     <section id="message-container" style="overflow-y: scroll">
       <div class="" *ngFor="let item of message$ | async">
-        <div
-          [ngClass]="item.sender._id === hold.id ? 'chat chat-end': 'chat chat-start'"
-        >
-         
+        <div [ngClass]="item.sender._id === hold.id ? 'chat chat-end': 'chat chat-start'">
+
           <div class="chat-header">
             {{item.sender.name}}
-            <time class="text-xs opacity-50"
-              >{{transform(item.createdAt)}}</time
-            >
+            <time class="text-xs opacity-50">{{transform(item.createdAt)}}</time>
           </div>
-          <div
-            [ngClass]="item.sender._id === hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'"
-          >
+          <div [ngClass]="item.sender._id === hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'">
             {{item.message}}
           </div>
           <div class="chat-footer opacity-50">
-            <ion-icon
-              *ngIf="item.isRead === true && item.sender._id === hold.id"
-              style="padding-top: 5px; color: cadetblue"
-              name="checkmark-done-sharp"
-            ></ion-icon>
-            <ion-icon
-              *ngIf="item.isRead === false && item.sender._id === hold.id"
-              style="padding-top: 5px"
-              name="checkmark-sharp"
-            ></ion-icon>
+            <ion-icon *ngIf="item.isRead === true && item.sender._id === hold.id"
+              style="padding-top: 5px; color: cadetblue" name="checkmark-done-sharp"></ion-icon>
+            <ion-icon *ngIf="item.isRead === false && item.sender._id === hold.id" style="padding-top: 5px"
+              name="checkmark-sharp"></ion-icon>
           </div>
         </div>
       </div>
 
       <div *ngIf="vals" class="chat chat-start">
-       
+
 
         <div class="chat-bubble chat-bubble-primary">Typing...</div>
       </div>
@@ -59,19 +47,15 @@
 <ion-footer collapse="fade">
   <ion-toolbar>
     <ion-item lines="none">
-      <ion-buttons>
-        <ion-button>
-          <ion-icon style="font-size: 2rem" name="image-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
 
-      <textarea
-        class="chat-input"
-        placeholder="Type message"
-        (keypress)="startTyping()"
-        (keyup.enter)="send()"
-        [(ngModel)]="message"
-      ></textarea>
+
+      <ion-input placeholder="Type message" (keypress)="startTyping()" (keyup.enter)="send()" [(ngModel)]="message">
+        <ion-buttons>
+          <ion-button>
+            <ion-icon style="font-size: 2rem" name="image-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-input>
       <ion-buttons>
         <ion-button type="submit" (keyup.enter)="send()" (click)="send()">
           <ion-icon style="font-size: 2rem" name="send-sharp"></ion-icon>

@@ -15,11 +15,13 @@ export class ProfileComponent implements OnInit {
   presentingElement = undefined;
   id = this.route.snapshot.params['id'];
   me: any = {};
+  username: string = "";
 
   ngOnInit() {
     this.prof.getMe(this.id).subscribe((res:any)=>{
       console.log(res[0]);
       this.me = res[0];
+      this.username = this.me.name;
     }, (err: any)=>{
       console.log(err);
     })

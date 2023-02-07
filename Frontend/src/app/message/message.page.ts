@@ -41,6 +41,7 @@ export class MessagePage implements OnInit {
     // goes to the bottom instead of instantly
     this.content.scrollToBottom(500);
   }
+  
 
   scrollToTop() {
     // Passing a duration to the method makes it so the scroll slowly
@@ -51,9 +52,6 @@ export class MessagePage implements OnInit {
   ngAfterViewChecked() {
     this.chat.viewMessage();
     // this.markAsRead();
-  }
-
-  ngAfterViewInit(){
     this.scrollToBottom();
   }
 
@@ -68,6 +66,7 @@ export class MessagePage implements OnInit {
   msg: any = [];
 
   ngOnInit() {
+    
     this.chat.connect(this.hold.id);
 
     this.getMessages();
