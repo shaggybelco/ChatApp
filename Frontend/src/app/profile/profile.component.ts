@@ -72,6 +72,20 @@ export class ProfileComponent implements OnInit {
       return;
     } else if (role === 'confirm') {
       console.log('something');
+      const data = {
+        id: this.id,
+        image: this.file,
+        name: this.username,
+        isAvatar: true
+      }
+
+      console.log(data);
+
+      this.prof.updateProfile(data).subscribe((res: any)=>{
+        console.log(res);
+      }, (error: any)=>{
+        console.log(error);
+      })
     }
     return role === 'confirm';
   };
