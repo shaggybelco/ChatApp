@@ -184,61 +184,76 @@ exports.sendMessage = async (req, res, next) => {
 };
 
 exports.getConversation = async (req, res, next) => {
-  console.log('++++++++++++++++++++++++');
+  console.log("++++++++++++++++++++++++");
+
+  const loggedInUserId = req.params.id;
+  console.log(loggedInUserId);
+  // const getLastMessage = async (conversationId) => {
+  //   try {
+  //     const message = await Message.findOne({
+  //       conversation: conversationId,
+  //     }).sort({ createdAt: -1 });
+  
+  //     return message;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
+
+  
+  // try {
+  //   const conversations = await Conversation.find({
+  //     members: { $in: [loggedInUserId] },
+  //   });
+
+  //   const chatHistory = [];
+
+  //   for (const conversation of conversations) {
+  //     const otherUserId = conversation.members.find((m) => m !== loggedInUserId);
+  //     const lastMessage = await getLastMessage(conversation._id);
+
+  //     chatHistory.push({
+  //       userId: otherUserId,
+  //       lastMessage,
+  //     });
+  //   }
+
+  //   res.status(200).json(chatHistory)
+  // } catch (error) {
+  //   throw error;
+  // }
+
   Message.aggregate([
     {
       $match: {
-        sender: { $ne: req.params.id },
-      },
+        sender: loggedInUserId
+      }
     },
     {
       $lookup: {
         from: "conversations",
         localField: "conversation",
         foreignField: "_id",
-        as: "conversation",
-      },
+        as: "conversation"
+      }
     },
     {
-      $unwind: "$conversation",
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "sender",
-        foreignField: "_id",
-        as: "sender",
-      },
-    },
-    {
-      $unwind: "$sender",
+      $sort: {
+        timestamp: -1
+      }
     },
     {
       $group: {
-        _id: { sender: "$sender._id" },
-        lastMessage: { $last: "$message" },
-        lastMessageDate: { $last: "$createdAt" },
-        name: { $first: "$sender.name" },
-        cellphone: { $first: "$sender.cellphone" },
-        unreadMessageCount: { $sum: { $cond: [{ $eq: ["$isRead", false] }, 1, 0] } },
-      },
-    },
-    {
-      $project: {
-        _id: "$_id.sender",
-        lastMessage: 1,
-        lastMessageDate: 1,
-        name: 1,
-        cellphone: 1,
-        unreadMessageCount: 1,
-      },
-    },
-  ])
-    .exec()
-    .then((results) => {
-      // handle results
-      console.log(results);
-      res.status(200).json(results);
-    });
+        _id: "$conversation._id",
+        conversation: { $first: "$conversation" },
+        lastMessage: { $first: "$message" },
+        timestamp: { $first: "$timestamp" }
+      }
+    }
+  ]).exec((err, results)=>{
+    console.log(results);
+    res.status(200).json(results)
+  })
   
-}
+  
+};
