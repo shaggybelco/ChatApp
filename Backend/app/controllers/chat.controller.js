@@ -220,6 +220,7 @@ exports.getConversation = async (req, res, next) => {
         lastMessageDate: { $last: "$createdAt" },
         name: { $first: "$sender.name" },
         cellphone: { $first: "$sender.cellphone" },
+        unreadMessageCount: { $sum: { $cond: [{ $eq: ["$isRead", false] }, 1, 0] } },
       },
     },
     {
@@ -229,6 +230,7 @@ exports.getConversation = async (req, res, next) => {
         lastMessageDate: 1,
         name: 1,
         cellphone: 1,
+        unreadMessageCount: 1,
       },
     },
   ])

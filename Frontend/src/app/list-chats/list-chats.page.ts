@@ -44,20 +44,20 @@ export class ListChatsPage implements OnInit {
 
    
 
-    this.chat.getLastMessage(this.hold.id).subscribe((res: any) => {
-      // console.log('ran')
-      this.chat.getRead().subscribe((res: any)=>{
-        // console.log(res);
-      })
-      this.chat.receiveMessage();
+    // this.chat.getLastMessage(this.hold.id).subscribe((res: any) => {
+    //   // console.log('ran')
+    //   this.chat.getRead().subscribe((res: any)=>{
+    //     // console.log(res);
+    //   })
+    //   this.chat.receiveMessage();
       
-      this.user.getAllUser(this.hold.id).subscribe({
-        next: (res: any) => {
-          this.users = res.users;
-          // console.log(res.users);
-        },
-      });
-    });
+    //   this.user.getAllUser(this.hold.id).subscribe({
+    //     next: (res: any) => {
+    //       this.users = res.users;
+    //       // console.log(res.users);
+    //     },
+    //   });
+    // });
   }
 
 

@@ -19,13 +19,13 @@
       </ion-avatar>
       <ion-label>
         {{user.name}}
-        <p>last Message asdf d sd sdf sdf asdf sd sd sdf asdf sdf a</p>
+        <p>{{user.lastMessage}}</p>
       </ion-label>
       <div class="time">
        
         <p class="flex gap-1">
-          <span class="text-sm">1 seconds ago</span>
-          <ion-badge slot="end">2</ion-badge>
+          <span class="text-sm">{{transform(user.lastMessageDate)}}</span>
+          <ion-badge slot="end">{{user.unreadMessageCount}}</ion-badge>
         </p>
       </div>
     </ion-item>
