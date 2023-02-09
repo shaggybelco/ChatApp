@@ -64,8 +64,8 @@ export class ListChatsPage implements OnInit {
   getAllUser(id: any) {
     this.user.getAllUser(id).subscribe({
       next: (res: any) => {
-        this.users = res.users;
-        console.log(res.users);
+        this.users = res;
+        console.log(res);
       },
     });
   }
