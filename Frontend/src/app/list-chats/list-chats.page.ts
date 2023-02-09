@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-chat',
-  templateUrl: './chat.page.html',
-  styleUrls: ['./chat.page.scss'],
+  selector: 'app-list-chats',
+  templateUrl: './list-chats.page.html',
+  styleUrls: ['./list-chats.page.scss'],
 })
-export class ChatPage implements OnInit {
+export class ListChatsPage implements OnInit {
+
   constructor(
     private token: TokenService,
     private user: UserService,
@@ -39,25 +39,25 @@ export class ChatPage implements OnInit {
 
     // console.log(this.hold.id + ' hold');
 
-    // this.getAllUser(this.hold.id);
-    // this.chat.connect(this.hold.id)
+    this.getAllUser(this.hold.id);
+    this.chat.connect(this.hold.id)
 
    
 
-    // this.chat.getLastMessage(this.hold.id).subscribe((res) => {
-    //   // console.log('ran')
-    //   this.chat.getRead().subscribe((res: any)=>{
-    //     // console.log(res);
-    //   })
-    //   this.chat.receiveMessage();
+    this.chat.getLastMessage(this.hold.id).subscribe((res: any) => {
+      // console.log('ran')
+      this.chat.getRead().subscribe((res: any)=>{
+        // console.log(res);
+      })
+      this.chat.receiveMessage();
       
-    //   this.user.getAllUser(this.hold.id).subscribe({
-    //     next: (res: any) => {
-    //       this.users = res.users;
-    //       // console.log(res.users);
-    //     },
-    //   });
-    // });
+      this.user.getAllUser(this.hold.id).subscribe({
+        next: (res: any) => {
+          this.users = res.users;
+          // console.log(res.users);
+        },
+      });
+    });
   }
 
 
@@ -65,7 +65,7 @@ export class ChatPage implements OnInit {
     this.user.getAllUser(id).subscribe({
       next: (res: any) => {
         this.users = res.users;
-        console.log(res);
+        console.log(res.users);
       },
     });
   }

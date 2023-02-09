@@ -1,8 +1,5 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
-    <!-- <ion-buttons slot="start">
-      <ion-back-button defaultHref="/signin"></ion-back-button>
-    </ion-buttons> -->
     <ion-title>Chats</ion-title>
     <ion-buttons slot="end">
       <ion-button id="open-modal" expand="block"
@@ -10,8 +7,29 @@
       ></ion-button>
     </ion-buttons>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
+<ion-content>
+  <ion-tabs>
+    <ion-router-outlet></ion-router-outlet>
+
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="list">
+        <ion-icon name="play-circle"></ion-icon>
+        Chats
+      </ion-tab-button>
+      <ion-tab-button tab="profile/{{hold.id}}">
+        <ion-icon name="radio"></ion-icon>
+        Profile
+      </ion-tab-button>
+      <ion-tab-button tab="contacts">
+        <ion-icon name="library"></ion-icon>
+        Contacts
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>
+<!-- 
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
@@ -80,7 +98,6 @@
   >
     <ng-template>
       <ion-content>
-        <!-- <ion-searchbar placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar> -->
         <ion-list>
           <ion-item button [routerLink]="['/profile',hold.id]" >
             <ion-icon
@@ -96,4 +113,4 @@
       </ion-content>
     </ng-template>
   </ion-modal>
-</ion-content>
+</ion-content> -->

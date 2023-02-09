@@ -10,5 +10,7 @@ db.mongoose = mongoose;
 db.url = dbConfig.url;
 db.chat = require("./chat.model.js")(mongoose);
 db.user = require('./user.model')(mongoose);
+db.message = require('./chat.model')(mongoose);
+db.conversation = require('./conversation.model')(mongoose);
 
 module.exports = db;

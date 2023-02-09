@@ -44,7 +44,7 @@ export class SigninPage implements OnInit {
           console.log(res)
           localStorage.setItem('token', res.token);
           this.token.token = res.token;
-          this.router.navigate(['/chat']);
+          this.router.navigate(['/tab']);
 
         },error: (err: any)=>{
           console.log(err)

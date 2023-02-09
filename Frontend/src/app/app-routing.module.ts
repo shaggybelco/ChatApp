@@ -22,19 +22,14 @@ const routes: Routes = [
     loadChildren: () => import('./auth/signup/signup.module').then( m => m.SignupPageModule)
   },
   {
-    path: 'chat',
+    path: 'tab',
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   },
   {
     path: 'chats/:id/:name',
     loadChildren: () => import('./message/message.module').then( m => m.MessagePageModule)
-  },{
-    path: 'contacts',
-    component: ContactsComponent
-  },{
-    path: 'profile/:id',
-    component: ProfileComponent
-  }
+  },
+
 
 ];
 
