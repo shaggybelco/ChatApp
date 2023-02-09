@@ -10,14 +10,24 @@
   </ion-refresher>
 
   <ion-list>
-    <ion-item>
+    <ion-item button *ngFor="let user of users;">
       <ion-avatar slot="start">
         <img
           alt="Silhouette of a person's head"
           src="https://ionicframework.com/docs/img/demos/avatar.svg"
         />
       </ion-avatar>
-      <ion-label> Avatar Item </ion-label>
+      <ion-label>
+        {{user.name}}
+        <p>last Message asdf d sd sdf sdf asdf sd sd sdf asdf sdf a</p>
+      </ion-label>
+      <div class="time">
+       
+        <p class="flex gap-1">
+          <span class="text-sm">1 seconds ago</span>
+          <ion-badge slot="end">2</ion-badge>
+        </p>
+      </div>
     </ion-item>
   </ion-list>
 </ion-content>
