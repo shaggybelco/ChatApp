@@ -2,6 +2,7 @@ const db = require("../models");
 const Chat = db.chat;
 const User = db.user;
 const Conversation = db.conversation;
+const Message = db.message;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -124,8 +125,6 @@ exports.findOne = async (req, res) => {
           res.status(400).json(error);
         }
 
-       
-
         res.status(200).json(chat);
       });
 
@@ -145,42 +144,99 @@ exports.update = (req, res, next) => {
         if (error) {
           res.status(400).json(error);
         }
-        console.log(result)
-  
+        console.log(result);
+
         res.status(200).json(result);
       }
     );
   } catch (error) {
-    next(error)
+    next(error);
   }
- 
 };
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = () => {};
 
-
 // send message using conversations
-module.exports.sendMessage = async (senderId, recipientId, messageText) => {
+exports.sendMessage = async (req, res, next) => {
   try {
     let conversation = await Conversation.findOne({
-      members: { $all: [senderId, recipientId] },
+      members: { $all: [req.params.sender, req.params.receiver] },
     });
 
     if (!conversation) {
       conversation = await new Conversation({
-        members: [senderId, recipientId],
+        members: [req.params.sender, req.params.receiver],
       }).save();
     }
 
     const message = await new Message({
-      sender: senderId,
+      sender: req.params.sender,
       conversation: conversation._id,
-      message_text: messageText,
+      message: req.body.message,
     }).save();
 
-    return message;
+    res.status(200).json(message);
+    // return message;
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
+
+exports.getConversation = async (req, res, next) => {
+  console.log('++++++++++++++++++++++++');
+  Message.aggregate([
+    {
+      $match: {
+        sender: { $ne: req.params.id },
+      },
+    },
+    {
+      $lookup: {
+        from: "conversations",
+        localField: "conversation",
+        foreignField: "_id",
+        as: "conversation",
+      },
+    },
+    {
+      $unwind: "$conversation",
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "sender",
+        foreignField: "_id",
+        as: "sender",
+      },
+    },
+    {
+      $unwind: "$sender",
+    },
+    {
+      $group: {
+        _id: { sender: "$sender._id" },
+        lastMessage: { $last: "$message" },
+        lastMessageDate: { $last: "$createdAt" },
+        name: { $first: "$sender.name" },
+        cellphone: { $first: "$sender.cellphone" },
+      },
+    },
+    {
+      $project: {
+        _id: "$_id.sender",
+        lastMessage: 1,
+        lastMessageDate: 1,
+        name: 1,
+        cellphone: 1,
+      },
+    },
+  ])
+    .exec()
+    .then((results) => {
+      // handle results
+      console.log(results);
+      res.status(200).json(results);
+    });
+  
+}

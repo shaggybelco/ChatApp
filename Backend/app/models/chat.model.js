@@ -27,27 +27,3 @@ module.exports = (mongoose) => {
   const Chat = mongoose.model("chats", schema);
   return Chat;
 };
-
-module.exports = (mongoose) => {
-  var Messages = mongoose.Schema(
-    {
-      sender: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-      },
-      conversation: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Conversation",
-        required: true,
-      },
-      message_text: {
-        type: String,
-        required: true,
-      },
-    },
-    { timestamps: true }
-  );
-
-  return Messages;
-};

@@ -6,7 +6,7 @@ const User = db.user;
 exports.register = async (req, res) => {
   try {
     const user = await User.find({ cellphone: req.body.cellphone });
-    console.log(user);
+    // console.log(user);
 
     const SECRET_KEY =
       "iaujshfklausfokjvuorjvksuirefkjauirjkauerfvkajbsru;foajckrabuv";

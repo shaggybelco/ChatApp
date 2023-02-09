@@ -50,7 +50,7 @@ export class MessagePage implements OnInit {
   }
 
   ngAfterViewChecked() {
-    this.chat.viewMessage();
+    // this.chat.viewMessage();
     this.scrollToBottom();
   }
 
@@ -66,33 +66,33 @@ export class MessagePage implements OnInit {
   socket = io(`http://localhost:3333`);
 
   ngOnInit() {
-    this.markAsRead();
+    // this.markAsRead();
 
     this.chat.connect(this.hold.id);
 
-    this.getMessages();
+    // this.getMessages();
 
-    this.chat.getIsRead({
-      isRead: true,
-      receiver: this.id,
-      sender: this.hold.id,
-    });
+    // this.chat.getIsRead({
+    //   isRead: true,
+    //   receiver: this.id,
+    //   sender: this.hold.id,
+    // });
 
-    this.chat.getRead().subscribe((res: any) => {
-      // console.log('reading');
-    });
+    // this.chat.getRead().subscribe((res: any) => {
+    //   // console.log('reading');
+    // });
 
-    this.chat.getNewMessage().subscribe({
-      next: (val: any) => {
-        // console.log(val);
-        this.message$.next(val[0].chats);
-        this.message$.subscribe({
-          next: (res: any) => {
-            // console.log(res);
-          },
-        });
-      },
-    });
+    // this.chat.getNewMessage().subscribe({
+    //   next: (val: any) => {
+    //     // console.log(val);
+    //     this.message$.next(val[0].chats);
+    //     this.message$.subscribe({
+    //       next: (res: any) => {
+    //         // console.log(res);
+    //       },
+    //     });
+    //   },
+    // });
   }
 
   typing = false;
@@ -129,7 +129,16 @@ export class MessagePage implements OnInit {
       this.typing = false;
       this.message = '';
 
-      this.chat.sendMessage(messageData);
+      console.log(messageData);
+      this.chat.sendMessage(messageData).subscribe(
+        (res: any) => {
+          console.log(res);
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
+
       this.chat.getStopTyping().subscribe((sender) => {
         this.typing = false;
       });

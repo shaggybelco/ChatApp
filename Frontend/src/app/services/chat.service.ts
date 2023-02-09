@@ -41,7 +41,7 @@ msgReset: any = 0;
   sendMessage(data: any){
     // socket.emit('send', data);
 
-    return this.http.post(`${environment.baseUrl}/chat`, data)
+    return this.http.post(`${environment.baseUrl}/chat/${data.sender}/${data.receiver}`, data)
 
   }
 
