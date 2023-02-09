@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { ActionSheetController } from '@ionic/angular';
+import { TokenService } from '../services/token.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,16 +13,17 @@ export class ProfileComponent implements OnInit {
   constructor(
     private prof: UserService,
     private route: ActivatedRoute,
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private token: TokenService,
   ) {}
 
   presentingElement = undefined;
-  id = this.route.snapshot.params['id'];
+  id:any = this.token.decode();
   me: any = {};
   username: string = '';
 
   ngOnInit() {
-    this.prof.getMe(this.id).subscribe(
+    this.prof.getMe(this.id.id).subscribe(
       (res: any) => {
         console.log(res[0]);
         this.me = res[0];
