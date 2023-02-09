@@ -22,9 +22,6 @@ export class ListChatsPage implements OnInit {
     })
   }
 
-  show(){
-    alert('yes')
-  }
 
   @Input() tab = 'list';
 

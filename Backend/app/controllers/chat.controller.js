@@ -1,6 +1,7 @@
 const db = require("../models");
 const Chat = db.chat;
 const User = db.user;
+const Conversation = db.conversation;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -157,3 +158,29 @@ exports.update = (req, res, next) => {
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = () => {};
+
+
+// send message using conversations
+module.exports.sendMessage = async (senderId, recipientId, messageText) => {
+  try {
+    let conversation = await Conversation.findOne({
+      members: { $all: [senderId, recipientId] },
+    });
+
+    if (!conversation) {
+      conversation = await new Conversation({
+        members: [senderId, recipientId],
+      }).save();
+    }
+
+    const message = await new Message({
+      sender: senderId,
+      conversation: conversation._id,
+      message_text: messageText,
+    }).save();
+
+    return message;
+  } catch (error) {
+    throw error;
+  }
+};
