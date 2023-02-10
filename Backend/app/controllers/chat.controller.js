@@ -1,6 +1,6 @@
 const db = require("../models");
 const Chat = db.chat;
-const User = db.user;
+
 const Conversation = db.conversation;
 const Message = db.message;
 
