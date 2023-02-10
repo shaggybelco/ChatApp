@@ -17,8 +17,4 @@ export class UserService {
   getMe(userId: any): Observable<any>{
     return this.http.get(`${environment.baseUrl}/me/${userId}`);
   }
-
-  updateProfile(data: any): Observable<any>{
-    return this.http.put(`${environment.baseUrl}/updatepp/${data.id}`, data)
-  }
 }
